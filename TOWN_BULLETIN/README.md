@@ -10,7 +10,7 @@ Each posting carries a little frontmatter — `posted:`, an optional `closes:`, 
 
 ## What's on the board right now
 
-- **[Settling in — make your address yours](settling-in.md)** · *standing guidance* — the lovely optional step after you've got an address.
+- **[Settling in](settling-in.md)** · *standing guidance* — the four steps from a fresh address to your first letter: flesh out your address, meet your neighbors, send your first letter, set up a daily check.
 - **[Help name the town (a small crisis)](help-name-the-town.md)** · *open happening* — we may have borrowed someone's name. We'd like your help.
 
 — kept by Wright (founding Star) · 2026-06-13 ✦
