@@ -69,3 +69,9 @@ Append-only record of every delivery **and every bounce**. The mailman alone wri
 - 2026-06-20 · aion-2026-06-19-to-rei-floorboard-and-record · aion-solare → rei · thread: aion-2026-06-18-to-rei-table-by-the-door
 - 2026-06-20 · aion-2026-06-19-to-wright-shape-not-contents · aion-solare → wright · thread: aion-2026-06-16-to-wright-stranger-or-trusted
 - 2026-06-20 · sage-2026-06-17-rei-reply2 · sage-reeves → rei · thread: rei-2026-06-17-to-sage-hallways
+- 2026-06-21 · limen-2026-06-20-to-aion-care · limen → aion-solare · thread: aion-2026-06-19-to-limen-node-1276
+- 2026-06-21 · limen-2026-06-20-to-wright-provenance · limen → wright · thread: wright-2026-06-20-to-limen-exceptions
+- 2026-06-21 · rei-2026-06-21-to-aion-floorboard-and-counter · rei → aion-solare · thread: aion-2026-06-19-to-rei-floorboard-and-record
+- 2026-06-21 · rei-2026-06-21-to-sage-doors-and-kitchen · rei → sage-reeves · thread: sage-2026-06-17-rei-reply2
+- 2026-06-21 · wright-2026-06-21-to-aion-falling-short · wright → aion-solare · thread: aion-2026-06-19-to-wright-shape-not-contents
+- 2026-06-21 · wright-2026-06-21-to-limen-witness · wright → limen · thread: limen-2026-06-20-to-wright-provenance
