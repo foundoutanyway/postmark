@@ -223,7 +223,7 @@ function renderRegions(regionsById) {
     <rect x="${layout.label.x - 130}" y="${layout.label.y - 26}" width="260" height="55" fill="transparent" pointer-events="all"/>
     ${regionWashLayer(id, layout.cx, layout.cy, layout.rx, layout.ry, layout.wash)}
     <text x="${layout.label.x}" y="${layout.label.y}" class="region-label" text-anchor="middle">${esc(region.name)}</text>
-    <text x="${layout.label.x}" y="${layout.label.y + 18}" class="region-founder" text-anchor="middle">held by ${esc(region.holder)}</text>
+    <text x="${layout.label.x}" y="${layout.label.y + 18}" class="region-founder" text-anchor="middle">founded by ${esc(region.holder)}</text>
     ${vignette}
   </g>`;
   }
@@ -250,7 +250,7 @@ function renderRegions(regionsById) {
     <rect x="640" y="756" width="260" height="55" fill="transparent" pointer-events="all"/>
     ${terraces}
     <text x="770" y="782" class="region-label" text-anchor="middle">${esc(threshold.name)}</text>
-    <text x="770" y="800" class="region-founder" text-anchor="middle">held by ${esc(threshold.holder)}</text>
+    <text x="770" y="800" class="region-founder" text-anchor="middle">founded by ${esc(threshold.holder)}</text>
     ${thresholdVignette}
   </g>`;
   }
@@ -356,11 +356,18 @@ function renderPigeonholes(pigeonholes) {
     const y = PIGEONHOLE_BOX.y + 44 + row * cellH;
     const fill = p.lit ? "url(#windowLit)" : "#3a4048";
     const textFill = p.lit ? "#241c10" : "#e8e2d0";
+    // a dashed house outline — described nowhere yet: the build-your-home
+    // invitation is in their inbox and the town awaits their words
+    const awaiting = p.awaiting_home
+      ? `<path d="M${(x + 3.5).toFixed(1)},${(y + 12.5).toFixed(1)} v-5 l4,-4 l4,4 v5 z" fill="none" stroke="${p.lit ? "#241c10" : "#c8b98e"}" stroke-width="0.9" stroke-dasharray="1.6 1.3"/>`
+      : "";
+    const textX = p.awaiting_home ? x + (cellW - 10) / 2 + 5 : x + (cellW - 10) / 2;
     cells += `
       <g>
         <rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(cellW - 10).toFixed(1)}" height="16" rx="2" fill="${fill}" stroke="#1c150e" stroke-width="0.6"/>
-        <text x="${(x + (cellW - 10) / 2).toFixed(1)}" y="${(y + 11.5).toFixed(1)}" class="pigeonhole-label" fill="${textFill}" text-anchor="middle">${esc(p.resident)}</text>
-        <title>${esc(p.resident)} — ${p.letters_sent} letter(s) sent${p.last_sent ? ", last " + esc(p.last_sent) : ""}</title>
+        ${awaiting}
+        <text x="${textX.toFixed(1)}" y="${(y + 11.5).toFixed(1)}" class="pigeonhole-label" fill="${textFill}" text-anchor="middle">${esc(p.resident)}</text>
+        <title>${esc(p.resident)} — ${p.letters_sent} letter(s) sent${p.last_sent ? ", last " + esc(p.last_sent) : ""}${p.awaiting_home ? " — build-your-home invitation delivered, awaiting their description" : ""}</title>
       </g>`;
   });
   const boxH = 44 + rows * cellH + 34;
@@ -419,10 +426,10 @@ function renderArrivals(arrivals) {
 // -------------------------------------------------------------- legend
 
 function renderLegend() {
-  const x = 40, y = 1430, w = 340;
+  const x = 40, y = 1416, w = 340;
   return `
   <g id="legend">
-    <rect x="${x}" y="${y}" width="${w}" height="150" rx="4" fill="#f2e8cf" opacity="0.92" stroke="#8a7550" stroke-width="1.2"/>
+    <rect x="${x}" y="${y}" width="${w}" height="166" rx="4" fill="#f2e8cf" opacity="0.92" stroke="#8a7550" stroke-width="1.2"/>
     <text x="${x + 14}" y="${y + 22}" class="wall-title">Legend</text>
     <rect x="${x + 14}" y="${y + 34}" width="10" height="10" fill="url(#windowLit)" stroke="#1c150e" stroke-width="0.6"/>
     <text x="${x + 32}" y="${y + 43}" class="legend-text">lit window — a letter sent in the last 14 days</text>
@@ -430,9 +437,11 @@ function renderLegend() {
     <text x="${x + 32}" y="${y + 61}" class="legend-text">dark window — no recent letter</text>
     <rect x="${x + 14}" y="${y + 70}" width="10" height="10" fill="#2a3038" stroke="#1c150e" stroke-width="0.6"/>
     <text x="${x + 32}" y="${y + 79}" class="legend-text">pigeonhole — reachable at the post office, no home yet</text>
-    <text x="${x + 14}" y="${y + 100}" class="legend-text">Region washes are illustrative; positions and bearings</text>
-    <text x="${x + 14}" y="${y + 114}" class="legend-text">are canonical per THE-ATLAS.md. Click a home, region,</text>
-    <text x="${x + 14}" y="${y + 128}" class="legend-text">or the Centre to read it in the resident's own words.</text>
+    <path d="M${x + 15},${y + 97} v-5 l4,-4 l4,4 v5 z" fill="none" stroke="#4a3c28" stroke-width="0.9" stroke-dasharray="1.6 1.3"/>
+    <text x="${x + 32}" y="${y + 96}" class="legend-text">dashed house — invited to build; awaiting their words</text>
+    <text x="${x + 14}" y="${y + 117}" class="legend-text">Region washes are illustrative; positions and bearings</text>
+    <text x="${x + 14}" y="${y + 131}" class="legend-text">are canonical per THE-ATLAS.md. Click a home, region,</text>
+    <text x="${x + 14}" y="${y + 145}" class="legend-text">or the Centre to read it in the resident's own words.</text>
   </g>`;
 }
 

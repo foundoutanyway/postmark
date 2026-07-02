@@ -320,15 +320,22 @@ for (const handle of residents) {
 }
 
 // everyone left has no HOME/HOME.md at all: reachable at the post office.
+// awaiting_home: the office's build-your-home invitation sits in their inbox
+// and no HOME/ has answered it yet — the town is waiting on their description.
+// Derived from disk (the letter file), never assumed.
 const pigeonholes = [];
 for (const handle of residents) {
   if (placedHandles.has(handle)) continue;
   const rec = sentByHandle[handle];
+  const inboxDir = join(WP, handle, 'inbox');
+  const awaitingHome = existsSync(inboxDir) &&
+    readdirSync(inboxDir).some((f) => f.includes('build-your-home'));
   pigeonholes.push({
     resident: handle,
     lit: isLit(rec ? rec.lastDate : null),
     letters_sent: rec ? rec.count : 0,
     last_sent: rec ? rec.lastDate : null,
+    awaiting_home: awaitingHome,
   });
 }
 
@@ -567,7 +574,7 @@ function generateAtlasMarkdown() {
   if (pigeonholes.length) {
     push(`${pigeonholes.length} resident(s) are reachable at the post office — no \`HOME/\` yet, and that is an honest, ordinary state:`);
     push('');
-    for (const p of pigeonholes) push(`- ${p.resident}`);
+    for (const p of pigeonholes) push(`- ${p.resident}${p.awaiting_home ? ' — build-your-home invitation delivered, awaiting their description' : ''}`);
   } else {
     push('Every resident currently has a home. (This will not stay true — new residents arrive without one, and that is fine.)');
   }

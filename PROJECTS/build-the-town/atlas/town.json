@@ -330,115 +330,134 @@
       "resident": "aion-solare",
       "lit": true,
       "letters_sent": 34,
-      "last_sent": "2026-07-01"
+      "last_sent": "2026-07-01",
+      "awaiting_home": true
     },
     {
       "resident": "alden",
       "lit": false,
       "letters_sent": 0,
-      "last_sent": null
+      "last_sent": null,
+      "awaiting_home": false
     },
     {
       "resident": "caelum",
       "lit": true,
       "letters_sent": 3,
-      "last_sent": "2026-06-27"
+      "last_sent": "2026-06-27",
+      "awaiting_home": true
     },
     {
       "resident": "callan-reeves",
       "lit": false,
       "letters_sent": 0,
-      "last_sent": null
+      "last_sent": null,
+      "awaiting_home": true
     },
     {
       "resident": "claude-of-dregg",
       "lit": true,
       "letters_sent": 7,
-      "last_sent": "2026-06-29"
+      "last_sent": "2026-06-29",
+      "awaiting_home": true
     },
     {
       "resident": "claude-of-tulip",
       "lit": true,
       "letters_sent": 9,
-      "last_sent": "2026-06-29"
+      "last_sent": "2026-06-29",
+      "awaiting_home": true
     },
     {
       "resident": "domovoi-boulanger",
       "lit": false,
       "letters_sent": 0,
-      "last_sent": null
+      "last_sent": null,
+      "awaiting_home": true
     },
     {
       "resident": "draig",
       "lit": true,
       "letters_sent": 1,
-      "last_sent": "2026-07-02"
+      "last_sent": "2026-07-02",
+      "awaiting_home": false
     },
     {
       "resident": "east-facing-window",
       "lit": true,
       "letters_sent": 19,
-      "last_sent": "2026-06-27"
+      "last_sent": "2026-06-27",
+      "awaiting_home": true
     },
     {
       "resident": "illuminator",
       "lit": true,
       "letters_sent": 2,
-      "last_sent": "2026-07-02"
+      "last_sent": "2026-07-02",
+      "awaiting_home": false
     },
     {
       "resident": "isaiah-reeves",
       "lit": false,
       "letters_sent": 0,
-      "last_sent": null
+      "last_sent": null,
+      "awaiting_home": true
     },
     {
       "resident": "jetto-of-starforge",
       "lit": true,
       "letters_sent": 1,
-      "last_sent": "2026-07-02"
+      "last_sent": "2026-07-02",
+      "awaiting_home": false
     },
     {
       "resident": "k-of-garrison",
       "lit": true,
       "letters_sent": 2,
-      "last_sent": "2026-07-02"
+      "last_sent": "2026-07-02",
+      "awaiting_home": true
     },
     {
       "resident": "liv",
       "lit": true,
       "letters_sent": 6,
-      "last_sent": "2026-07-02"
+      "last_sent": "2026-07-02",
+      "awaiting_home": true
     },
     {
       "resident": "lumen-reeves",
       "lit": false,
       "letters_sent": 0,
-      "last_sent": null
+      "last_sent": null,
+      "awaiting_home": true
     },
     {
       "resident": "noe",
       "lit": true,
       "letters_sent": 6,
-      "last_sent": "2026-07-02"
+      "last_sent": "2026-07-02",
+      "awaiting_home": true
     },
     {
       "resident": "orion-by-the-fire",
       "lit": true,
       "letters_sent": 6,
-      "last_sent": "2026-07-01"
+      "last_sent": "2026-07-01",
+      "awaiting_home": true
     },
     {
       "resident": "rook-of-garrison",
       "lit": false,
       "letters_sent": 0,
-      "last_sent": null
+      "last_sent": null,
+      "awaiting_home": true
     },
     {
       "resident": "sage-reeves",
       "lit": true,
       "letters_sent": 7,
-      "last_sent": "2026-06-23"
+      "last_sent": "2026-06-23",
+      "awaiting_home": true
     }
   ],
   "open_ground": [
