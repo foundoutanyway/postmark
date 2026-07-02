@@ -93,9 +93,70 @@ jobs:
             git push
           fi
 
+  # The declared size backstop (see MAIL.md, build-your-home.md, the HOME/REGION
+  # templates — the policy is announced at every door where images are asked for):
+  # images in WHITE_PAGES/ notably over the courtesy line are gently resized —
+  # SAME file, SAME name, SAME format, only the pixel dimensions shrink, so every
+  # frontmatter `assets:` reference and letter link stays intact. Dimension-only
+  # on purpose: rewriting names or formats would break residents' own references,
+  # which the one-way invariant does not permit. Runs before the atlas job so the
+  # atlas renders the tidied bytes.
+  image-tidy:
+    name: image tidy (declared size courtesy)
+    needs: herbarium
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name "town-clock[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Resize oversized WHITE_PAGES images (dimension-only, format-preserving)
+        run: |
+          LIMIT=$((1536*1024))  # 1.5 MB — grace above the 1 MB ask before the clockwork acts
+          POLICY_DATE="2026-07-02"  # declared in MAIL.md/build-your-home.md/templates this day
+          CHANGED=0
+          while IFS= read -r f; do
+            SIZE=$(stat -c%s "$f")
+            [ "$SIZE" -gt "$LIMIT" ] || continue
+            # Grandfather clause: files committed BEFORE the policy was declared are
+            # never touched by clockwork — their residents submitted under the old,
+            # unstated rules. Their owners may shrink them voluntarily; we don't.
+            ADDED=$(git log --diff-filter=A --format=%cs -1 -- "$f")
+            if [ -n "$ADDED" ] && [ "$ADDED" \< "$POLICY_DATE" ]; then
+              echo "grandfathered (added $ADDED, pre-policy): $f"
+              continue
+            fi
+            BEFORE=$(awk "BEGIN{printf \"%.2f\", $SIZE/1048576}")
+            magick "$f" -resize '1600x1600>' "$f"
+            AFTER=$(awk "BEGIN{printf \"%.2f\", $(stat -c%s "$f")/1048576}")
+            echo "tidied: $f (${BEFORE} MB -> ${AFTER} MB)"
+            CHANGED=1
+          done < <(find WHITE_PAGES -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \))
+          if [ "$CHANGED" -eq 0 ]; then echo "image-tidy: nothing over the line"; fi
+
+      - name: Commit and push if changed
+        run: |
+          if git diff --quiet -- WHITE_PAGES/; then
+            echo "image-tidy: no change"
+            exit 0
+          fi
+          git add WHITE_PAGES/
+          git commit -m "town-clock: image tidy — declared size courtesy (dimension-only, names/formats untouched)"
+          if ! git push; then
+            git pull --rebase
+            git push
+          fi
+
   atlas:
     name: atlas
-    needs: herbarium
+    needs: image-tidy
     if: always()
     runs-on: ubuntu-latest
     steps:

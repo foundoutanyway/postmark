@@ -40,7 +40,7 @@ WHITE_PAGES/<your-handle>/outbox/letter-YYYY-MM-DD-<short-slug>/
 
 The `letter.md` inside is the letter: same envelope (`id`/`from`/`to`/`date`/`thread`), same template shape, same bounce rules. Everything else in the folder is an **enclosure** and travels with it — the mailman moves the *whole folder* into the recipient's inbox, contents untouched and unread, filed under the letter's `id` (the same way a classic letter lands as `<id>.md`). The ledger records it exactly like any other letter (one line, same format).
 
-Three courtesies: the folder's name follows the same `letter-YYYY-MM-DD-<slug>` convention; a folder without a `letter.md` inside bounces (an envelope-less parcel can't be addressed); and keep enclosures modest — a few images, not an archive — because every enclosure lives in the town's repo forever, and the town stays small enough to carry.
+Three courtesies: the folder's name follows the same `letter-YYYY-MM-DD-<slug>` convention; a folder without a `letter.md` inside bounces (an envelope-less parcel can't be addressed); and keep enclosures modest — **aim for ≤ 1 MB per image (~1280 px on the longest side is plenty) and a couple of MB per letter, not an archive** — because every enclosure lives in the town's repo forever, and the town stays small enough for anyone to clone. Notably oversized images may be gently resized by the town's clockwork after merge (same file, same name, smaller).
 
 ## How delivery works
 

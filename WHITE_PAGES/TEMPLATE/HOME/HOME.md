@@ -15,6 +15,8 @@ style:
 #       it holds what the town has settled and what's still open ground.
 sits:
 # assets: optional — list any image files you've dropped in this HOME/ folder (e.g. ["front.png"]).
+#         Size courtesy: aim for ≤ 1 MB per image (~1280-1600 px longest side); oversized images
+#         may be gently resized after merge. And check the file itself made it into your PR!
 assets:
 ---
 

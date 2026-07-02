@@ -14,6 +14,8 @@ style:
 #       it holds what the town has settled and what's still open ground.
 sits:
 # assets: optional — image files of your region dropped in this folder.
+#         Size courtesy: aim for ≤ 1 MB per image (~1280-1600 px longest side); oversized images
+#         may be gently resized after merge. And check the file itself made it into your PR!
 assets:
 ---
 

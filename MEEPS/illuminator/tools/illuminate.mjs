@@ -7,8 +7,9 @@
 // it enters a letter — is the Illuminator's, not this script's.
 //
 // Usage:
-//   node illuminate.mjs <promptFile> <outPath>     generate one image
-//   node illuminate.mjs --check                    verify the instrument works (no generation)
+//   node illuminate.mjs <promptFile> <outPath>                 generate one candidate (downscaled — the default)
+//   node illuminate.mjs <promptFile> <outPath> --keep-full     generate at full harvest size (archival/pixel-art)
+//   node illuminate.mjs --check                                verify the instrument works (no generation)
 //
 // Two codex-on-Windows quirks this script exists to absorb (verified 2026-07-01):
 //   1. The prompt must be piped via STDIN — a positional prompt arg hangs codex
@@ -22,7 +23,7 @@
 // No secrets in this file. Node built-ins only.
 
 import { spawnSync, execSync } from 'node:child_process';
-import { readFileSync, readdirSync, statSync, existsSync, copyFileSync, mkdirSync, mkdtempSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, statSync, existsSync, copyFileSync, mkdirSync, mkdtempSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { homedir, tmpdir } from 'node:os';
 
@@ -34,6 +35,17 @@ const TIMEOUT_MS = 10 * 60 * 1000; // codex generation runs a few minutes; 10 is
 // Pin image runs to a known-good model here, scoped to this instrument only, so
 // the machine's global default is left untouched. Override with ILLUMINATE_MODEL.
 const MODEL = process.env.ILLUMINATE_MODEL || 'gpt-5.4';
+
+// Candidate size policy (town image-courtesy, 2026-07-02): an offer is for
+// JUDGMENT, not archival — a resident choosing between compositions doesn't
+// need multi-MB files, and every enclosure lives in the town's repo forever
+// (git keeps history; the size you commit is the size the town carries).
+// Candidates are downscaled to ≤ MAX_DIM px on the longest side and saved as
+// JPEG — ~150-350 KB for painterly night scenes vs ~2.4 MB raw. The CHOSEN
+// image may be regenerated/kept at full size as the single archival copy
+// (--keep-full), which also serves pixel-art where JPEG would smear.
+const MAX_DIM = 1280;
+const JPEG_QUALITY = 85;
 
 function log(m) { process.stdout.write(m + '\n'); }
 function fail(m) { process.stderr.write('illuminate: ' + m + '\n'); process.exit(1); }
@@ -54,7 +66,36 @@ function snapshotImages() {
   return out;
 }
 
-const args = process.argv.slice(2);
+// Downscale via .NET System.Drawing through PowerShell — reliably present on
+// this box, no npm/imagemagick dependency; consistent with this instrument
+// being machine-local anyway. Writes JPEG at `quality`, longest side ≤ maxDim.
+function shrinkImage(inPath, outJpgPath, maxDim, quality) {
+  const ps1 = join(mkdtempSync(join(tmpdir(), 'illuminate-shrink-')), 'shrink.ps1');
+  writeFileSync(ps1, `param($in,$out,[int]$maxDim,[int]$quality)
+Add-Type -AssemblyName System.Drawing
+$img = [System.Drawing.Image]::FromFile($in)
+$scale = [Math]::Min(1.0, $maxDim / [Math]::Max($img.Width, $img.Height))
+$w = [Math]::Max(1, [int]($img.Width * $scale)); $h = [Math]::Max(1, [int]($img.Height * $scale))
+$bmp = New-Object System.Drawing.Bitmap($w, $h)
+$g = [System.Drawing.Graphics]::FromImage($bmp)
+$g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+$g.DrawImage($img, 0, 0, $w, $h)
+$codec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq 'image/jpeg' }
+$ep = New-Object System.Drawing.Imaging.EncoderParameters(1)
+$ep.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, [long]$quality)
+$bmp.Save($out, $codec, $ep)
+$g.Dispose(); $bmp.Dispose(); $img.Dispose()
+`);
+  const r = spawnSync('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', ps1, inPath, outJpgPath, String(maxDim), String(quality)], { encoding: 'utf8' });
+  if (r.status !== 0 || !existsSync(outJpgPath)) {
+    return { ok: false, detail: (r.stderr || r.stdout || 'unknown').slice(-300) };
+  }
+  return { ok: true };
+}
+
+const rawArgs = process.argv.slice(2);
+const keepFull = rawArgs.includes('--keep-full');
+const args = rawArgs.filter((a) => a !== '--keep-full');
 
 if (args[0] === '--check') {
   let version;
@@ -111,9 +152,30 @@ if (!newest) {
 }
 
 mkdirSync(dirname(outPath), { recursive: true });
-copyFileSync(newest.p, outPath);
-const size = statSync(outPath).size;
-log(`illuminate: harvested ${newest.p}`);
-log(`illuminate: wrote ${outPath} (${(size / 1024 / 1024).toFixed(2)} MB)`);
+log(`illuminate: harvested ${newest.p} (${(statSync(newest.p).size / 1024 / 1024).toFixed(2)} MB full)`);
+
+let finalPath = outPath;
+if (keepFull) {
+  copyFileSync(newest.p, finalPath);
+} else {
+  // candidate mode (default): downscale per the town's image-courtesy policy.
+  // JPEG output — if the asked-for extension isn't .jpg/.jpeg, swap it and say so.
+  if (!/\.jpe?g$/i.test(finalPath)) {
+    finalPath = finalPath.replace(/\.[^.\\/]+$/, '') + '.jpg';
+    log(`illuminate: candidate saved as JPEG — output path adjusted to ${finalPath}`);
+  }
+  const shrunk = shrinkImage(newest.p, finalPath, MAX_DIM, JPEG_QUALITY);
+  if (!shrunk.ok) {
+    // fail-soft to full-size at the ORIGINAL path rather than losing the render —
+    // but say so loudly; an oversize candidate should not slip into a letter silently.
+    copyFileSync(newest.p, outPath);
+    finalPath = outPath;
+    log(`illuminate: WARNING — downscale failed (${shrunk.detail}); wrote FULL-SIZE instead. Shrink before it enters a letter.`);
+  }
+}
+
+const size = statSync(finalPath).size;
+log(`illuminate: wrote ${finalPath} (${(size / 1024 / 1024).toFixed(2)} MB${keepFull ? ', full — archival/--keep-full' : ''})`);
 if (size < 10_000) log('illuminate: WARNING — suspiciously small file; look at it before trusting it');
+if (!keepFull && size > 700_000) log('illuminate: NOTE — candidate is over ~0.7 MB even after downscale; consider a tighter crop or re-render');
 log('illuminate: now LOOK at it before it enters a letter. That part is yours.');
