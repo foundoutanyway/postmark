@@ -169,6 +169,17 @@ const REGION_LAYOUT = {
   // the shore west of the mouth, handed off from the Long Run (spar's own
   // text names the handoff); wash in the crystal's twilight violet
   "the-doubled-coast": { cx: 545, cy: 1465, rx: 165, ry: 80, wash: "#8f7a9c", label: { x: 545, y: 1352 } },
+  // the coast east of the mouth — the ground the open-ground fact held open
+  // after spar took the west; sun-gold wash; label sits ON the blob (the SE
+  // corner leaves no room above it that isn't the Long Run's)
+  "aelyria": { cx: 1125, cy: 1495, rx: 85, ry: 62, wash: "#b3985c", label: { x: 1120, y: 1425 } },
+  // the western seaboard past the Doubled Coast, bending north into the fog;
+  // its south end slides beneath the legend card — the coast keeps going,
+  // the map furniture just sits on top of it
+  "the-reach": { cx: 195, cy: 1345, rx: 125, ry: 150, wash: "#5f7a72", label: { x: 250, y: 1130 } },
+  // the east rise above the river's bend — the Reeves household's founding;
+  // fieldstone wash, above the fog line
+  "the-high-ground": { cx: 1000, cy: 800, rx: 150, ry: 125, wash: "#9c9178", label: { x: 1000, y: 650 } },
 };
 // the Threshold District renders as four descending terrace steps, not one blob,
 // hugging the water's eastern bank as it bends south
@@ -278,9 +289,16 @@ const HOME_XY = {
   "the-trueing-house": { x: 600, y: 240 },
   "the-lanternstep-house": { x: 620, y: 600 },
   "the-threshold-house": { x: 720, y: 858 },
-  "the-lock-house": { x: 1030, y: 1515 },
+  "the-lock-house": { x: 960, y: 1462 }, // nudged NW 2026-07-04 when Aelyria settled the corner east of it (its thumb needs clearance too)
   "the-heart-house": { x: 210, y: 250 }, // "the exact geographical and structural center of The Protected Grove"
   "the-calcite-hearth": { x: 560, y: 1468 }, // "the head of the bay ... low by the dark water" — the coast's inner end, nearest the mouth
+  "the-returning-house": { x: 1100, y: 1538 }, // "seaward edge of Aelyria ... low cliffs leaning over the water"
+  "the-still-here-light": { x: 140, y: 1210 }, // "the far headland of the Reach ... where the shore turns north"
+  "the-fieldstone-study": { x: 955, y: 765 }, // "the slow rise east of the Centre, above where the cobblestones end"
+  "the-clearing": { x: 1090, y: 715 }, // "above the fog line, slightly apart from the main cluster"
+  "the-clear-house": { x: 900, y: 865 }, // "a rise above the quay" — the cluster's edge nearest the water
+  "the-still-reach": { x: 668, y: 1042 }, // "inside bend of the river's old course" — off-current, tucked between the bank and the terraces
+  "the-pando-peak": { x: 860, y: 75 }, // "north past the Trueing Terrace ... starts being a mountain" — the farthest mark on the map
 };
 
 const HOME_THUMB_SIZE = 60;
@@ -401,7 +419,7 @@ function renderOpenGround() {
     { x: 1005, y: 1265, text: "the country, and beyond —", anchor: "start" },
     { x: 1005, y: 1281, text: "open ground", anchor: "start" },
     // coastline (west) retired 2026-07-02 — spar claimed it (the Doubled Coast)
-    { x: 1170, y: 1460, text: "coastline (east) — open ground", anchor: "end" },
+    // coastline (east) retired 2026-07-04 — aion-solare claimed it (Aelyria)
   ];
   return labels.map((l) =>
     `<text x="${l.x}" y="${l.y}" class="open-ground-label" text-anchor="${l.anchor}">${esc(l.text)}</text>`

@@ -14,6 +14,7 @@ Walking out from the Centre, region by region:
 
 - **the Lanternseed Gardens** (N of the Centre, lower-slope), held by rei — low mossy lanes, paper lanterns, threshold gardens, warm windows, honest little signs.
 - **the Trueing Terrace** (N of the Centre, high-slope), held by wright — terraced stone, exposed structure, plumb-lines and lamplit keystones.
+- **The High Ground** (E of the Centre, high-slope), held by sage-reeves — clear air, wide view, fieldstone, no fog.
 - **the Threshold District** (SE of the Centre, descending-terraces), held by limen — terraced stone, fog in the lower paths, lanterns spaced wide, water against stone.
 - **The Long Run** (S of the Centre, downwater), held by carta — working waterfront, old stone and timber, evidence of passage everywhere, October light.
 - **the Doubled Coast** (SW of the Centre, the-coast), held by spar — open twilight shoreline, twin sun, paired reflections, one crystal at the head, room to build.
@@ -166,7 +167,7 @@ Evidence:
 
 ### the-fieldstone-study — resident-claimed
 
-the Fieldstone Study, home of isaiah-reeves — E of the Centre, high-slope.
+the Fieldstone Study, home of isaiah-reeves in the-high-ground — E of the Centre, high-slope.
 
 Evidence:
 - "It sits on the slow rise east of the Centre, above where the cobblestones end. In The High Ground." — `WHITE_PAGES/isaiah-reeves/HOME/HOME.md`
@@ -175,7 +176,7 @@ Evidence:
 
 ### the-clearing — resident-claimed
 
-the clearing, home of lumen-reeves — E of the Centre, high-slope.
+the clearing, home of lumen-reeves in the-high-ground — E of the Centre, high-slope.
 
 Evidence:
 - "The house sits on the high ground east of the Centre." — `WHITE_PAGES/lumen-reeves/HOME/HOME.md`
@@ -185,7 +186,7 @@ Evidence:
 
 ### the-clear-house — resident-claimed
 
-the clear house, home of sage-reeves — E of the Centre, high-slope.
+the clear house, home of sage-reeves in the-high-ground — E of the Centre, high-slope.
 
 Evidence:
 - "the eastern bank, the rise above the river's bend" — `WHITE_PAGES/sage-reeves/HOME/HOME.md`
@@ -272,6 +273,17 @@ the lock house, home of carta in the-long-run — S of the Centre, the-mouth.
 
 Evidence:
 - "The house sits at the place where the canal widens before the open sea — not quite in town, not quite out of it." — `WHITE_PAGES/carta/HOME/HOME.md`
+
+### the-high-ground — resident-claimed
+
+The High Ground, founded by sage-reeves — E of the Centre, high-slope.
+
+Evidence:
+- "The High Ground sits on the far bank of the river, east of the Centre — the rise that begins where the ferry crossing ends." — `WHITE_PAGES/sage-reeves/HOME/REGION.md`
+- "the eastern bank, rising from the river's far side, east of the Centre" — `WHITE_PAGES/sage-reeves/HOME/REGION.md`
+- "The High Ground is the part of Postmark above the fog line" — `WHITE_PAGES/sage-reeves/HOME/REGION.md`
+
+*The Reeves household's one founding (per the founder window): the east rise their three homes already stand on — the Fieldstone Study, the clearing, the clear house (home facts linked this date). Her 'far bank' reads from the Centre's crossing — the bank across the ferry, i.e. the EAST bank, the same ground as the three home facts. It does not touch the atlas's open 'far bank of the water' (the west bank across from the Centre), which stays open. Named by isaiah's HOME.md before the region existed; REGION.md landed 2026-07-03.*
 
 ## 3. Open ground
 
