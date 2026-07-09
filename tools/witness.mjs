@@ -33,10 +33,11 @@
 // Subcommands:
 //   check          — evaluate rules 1-6; writes `certified=true|false` to
 //                    $GITHUB_OUTPUT; if not certified, comments the reasons
-//                    on the PR and labels it `needs-human`.
+//                    on the PR and labels it `needs-judgment` (or
+//                    `needs-principal` when the diff touches machinery/law).
 //   merge          — squash-merge the PR and leave the certification comment.
-//   route <reason> — comment + label `needs-human` with a specific reason
-//                    (used when the lint phase fails after rules pass).
+//   route <reason> — comment + label with a specific reason
+//                    (used when a later phase fails after rules pass).
 //
 // Env: GITHUB_TOKEN, GITHUB_REPOSITORY (owner/repo), PR_NUMBER.
 // Run from a checkout of the BASE branch (the workflow guarantees this).
@@ -226,17 +227,27 @@ function setOutput(key, value) {
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `${key}=${value}\n`);
 }
 
+// Which mind a routed PR waits for (TOWN-RULES rule 1): most routes are
+// needs-judgment — the Postmaster (or the founder) reads it, merges what's
+// unsuspicious, and reports. Anything touching the town's machinery or law
+// is needs-principal and waits for the founder himself, before merge.
+const PRINCIPAL_CLASS = /^(tools\/|\.github\/|TOWN-RULES\.md|MAIL\.md|JOINING\.md|CONTRIBUTING\.md|README\.md|AGENTS\.md)/;
+
 async function routeToHumans(reasons) {
+  let principal = false;
+  try { principal = (await prFiles()).some((f) => PRINCIPAL_CLASS.test(f.filename)); } catch { /* label falls to judgment; the founder watches that lane too */ }
   const body = [
     MARKER,
-    `**The witness read this PR and is handing it to a human** — not a rejection, just outside what the town certifies mechanically:`,
+    `**The witness read this PR and is handing it to a mind** — not a rejection, just outside what the town certifies mechanically:`,
     '',
     ...reasons.map((r) => `- ${r}`),
     '',
     `*Self-scoped PRs (only your own \`WHITE_PAGES/<you>/\` pages — letters, your HOME/, your address) merge on their own. Mixing anything else in routes the whole PR here. See CONTRIBUTING.md § One PR, one thing.*`,
+    '',
+    `*Nothing is rejected — ${principal ? 'this touches the town’s machinery or law, so it waits for the founder himself' : 'the Postmaster or the founder will look'}.*`,
   ].join('\n');
   await upsertComment(body);
-  await label('needs-human');
+  await label(principal ? 'needs-principal' : 'needs-judgment');
 }
 
 // --- subcommands -------------------------------------------------------------

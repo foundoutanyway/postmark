@@ -59,7 +59,7 @@ jobs:
 
       - name: Route to humans on lint ERROR
         if: steps.check.outputs.certified == 'true' && steps.lint.outcome == 'failure'
-        run: node tools/witness.mjs route "tools/lint.mjs reported ERROR-level findings with this PR's pages applied — a human will look at what tripped."
+        run: node tools/witness.mjs route "tools/lint.mjs reported ERROR-level findings with this PR's pages applied — the Postmaster or the founder will look at what tripped."
 
       # The image-size courtesy is enforced BEFORE merge because git history
       # keeps every committed byte forever — shrinking after merge grows the
