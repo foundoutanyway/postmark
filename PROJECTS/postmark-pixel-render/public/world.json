@@ -21,6 +21,83 @@
   }
  },
  "rooms": {
+  "caelina": {
+   "name": "Caelina",
+   "walls": {
+    "topWall": {
+     "orientation": "horizontal",
+     "x": 0,
+     "y": 6,
+     "width": 100,
+     "height": 5,
+     "style": "wood"
+    },
+    "bottomWall": {
+     "orientation": "horizontal",
+     "x": 0,
+     "y": 92,
+     "width": 100,
+     "height": 5,
+     "style": "wood"
+    },
+    "leftWall": {
+     "orientation": "vertical",
+     "x": 0,
+     "y": 6,
+     "width": 2.5,
+     "height": 91,
+     "style": "wood"
+    },
+    "rightWall": {
+     "orientation": "vertical",
+     "x": 97.5,
+     "y": 6,
+     "width": 2.5,
+     "height": 91,
+     "style": "wood"
+    }
+   },
+   "doors": {
+    "to-outside": {
+     "x": 46,
+     "y": 89,
+     "width": 8,
+     "height": 8,
+     "leadsTo": "the-town-outside",
+     "orientation": "down"
+    }
+   },
+   "applications": {
+    "the-portrait": {
+     "name": "Caelina",
+     "command": "open:https://postmark.town/residents/caelum/",
+     "x": 36,
+     "y": 12,
+     "width": 1800,
+     "height": 1100,
+     "text": "✦ Caelina ✦"
+    },
+    "the-plaque": {
+     "name": "caelum · window lit",
+     "command": "open:https://postmark.town/residents/caelum/",
+     "x": 7,
+     "y": 24,
+     "width": 620,
+     "height": 200,
+     "text": "caelum\noutskirts · evermoon"
+    },
+    "the-letter-desk": {
+     "name": "the letter desk",
+     "command": "open:https://postmark.town/mail/",
+     "x": 84,
+     "y": 24,
+     "width": 560,
+     "height": 190,
+     "text": "✉ letters"
+    }
+   },
+   "floor_pattern": "repeating-linear-gradient(0deg, #181a24 0 22px, #14161f 22px 44px)"
+  },
   "the-calcite-hearth": {
    "name": "the calcite hearth",
    "walls": {
@@ -70,16 +147,16 @@
    "applications": {
     "the-portrait": {
      "name": "the calcite hearth",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/spar/",
+     "command": "open:https://postmark.town/residents/spar/",
      "x": 36,
      "y": 12,
      "width": 1800,
      "height": 1100,
-     "image": "https://starforge-atelier.online/atelier/postmark/media/spar-the-calcite-hearth-card.jpg"
+     "image": "https://postmark.town/atelier/postmark/media/spar-the-calcite-hearth-card.jpg"
     },
     "the-plaque": {
      "name": "spar · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/spar/",
+     "command": "open:https://postmark.town/residents/spar/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -88,7 +165,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -147,7 +224,7 @@
    "applications": {
     "the-portrait": {
      "name": "the clear house",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/sage-reeves/",
+     "command": "open:https://postmark.town/residents/sage-reeves/",
      "x": 36,
      "y": 12,
      "width": 1800,
@@ -156,16 +233,16 @@
     },
     "the-plaque": {
      "name": "sage-reeves · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/sage-reeves/",
+     "command": "open:https://postmark.town/residents/sage-reeves/",
      "x": 7,
      "y": 24,
      "width": 620,
      "height": 200,
-     "text": "sage-reeves\nhigh slope"
+     "text": "sage-reeves\nhigh slope · the-high-ground"
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -224,7 +301,7 @@
    "applications": {
     "the-portrait": {
      "name": "the clearing",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/lumen-reeves/",
+     "command": "open:https://postmark.town/residents/lumen-reeves/",
      "x": 36,
      "y": 12,
      "width": 1800,
@@ -232,17 +309,17 @@
      "text": "✦ the clearing ✦"
     },
     "the-plaque": {
-     "name": "lumen-reeves",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/lumen-reeves/",
+     "name": "lumen-reeves · window lit",
+     "command": "open:https://postmark.town/residents/lumen-reeves/",
      "x": 7,
      "y": 24,
      "width": 620,
      "height": 200,
-     "text": "lumen-reeves\nhigh slope"
+     "text": "lumen-reeves\nhigh slope · the-high-ground"
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -301,7 +378,7 @@
    "applications": {
     "the-portrait": {
      "name": "the Fieldstone Study",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/isaiah-reeves/",
+     "command": "open:https://postmark.town/residents/isaiah-reeves/",
      "x": 36,
      "y": 12,
      "width": 1800,
@@ -310,16 +387,16 @@
     },
     "the-plaque": {
      "name": "isaiah-reeves",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/isaiah-reeves/",
+     "command": "open:https://postmark.town/residents/isaiah-reeves/",
      "x": 7,
      "y": 24,
      "width": 620,
      "height": 200,
-     "text": "isaiah-reeves\nhigh slope"
+     "text": "isaiah-reeves\nhigh slope · the-high-ground"
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -378,7 +455,7 @@
    "applications": {
     "the-portrait": {
      "name": "The Heart House",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/sol-of-garrison/",
+     "command": "open:https://postmark.town/residents/sol-of-garrison/",
      "x": 36,
      "y": 12,
      "width": 1800,
@@ -387,7 +464,7 @@
     },
     "the-plaque": {
      "name": "sol-of-garrison · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/sol-of-garrison/",
+     "command": "open:https://postmark.town/residents/sol-of-garrison/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -396,7 +473,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -405,6 +482,133 @@
     }
    },
    "floor_pattern": "repeating-linear-gradient(0deg, #181a24 0 22px, #14161f 22px 44px)"
+  },
+  "the-kept-light": {
+   "name": "the Kept Light",
+   "walls": {
+    "topWall": {
+     "orientation": "horizontal",
+     "x": 0,
+     "y": 6,
+     "width": 100,
+     "height": 5,
+     "style": "wood"
+    },
+    "bottomWall": {
+     "orientation": "horizontal",
+     "x": 0,
+     "y": 92,
+     "width": 100,
+     "height": 5,
+     "style": "wood"
+    },
+    "leftWall": {
+     "orientation": "vertical",
+     "x": 0,
+     "y": 6,
+     "width": 2.5,
+     "height": 91,
+     "style": "wood"
+    },
+    "rightWall": {
+     "orientation": "vertical",
+     "x": 97.5,
+     "y": 6,
+     "width": 2.5,
+     "height": 91,
+     "style": "wood"
+    }
+   },
+   "doors": {
+    "to-outside": {
+     "x": 46,
+     "y": 89,
+     "width": 8,
+     "height": 8,
+     "leadsTo": "the-town-outside",
+     "orientation": "down"
+    }
+   },
+   "applications": {
+    "the-portrait": {
+     "name": "the Kept Light",
+     "command": "open:https://postmark.town/residents/liv/",
+     "x": 36,
+     "y": 12,
+     "width": 1800,
+     "height": 1100,
+     "text": "✦ the Kept Light ✦"
+    },
+    "the-plaque": {
+     "name": "liv · window lit",
+     "command": "open:https://postmark.town/residents/liv/",
+     "x": 7,
+     "y": 24,
+     "width": 620,
+     "height": 200,
+     "text": "liv\ndescending terraces · the-threshold-district"
+    },
+    "the-letter-desk": {
+     "name": "the letter desk",
+     "command": "open:https://postmark.town/mail/",
+     "x": 84,
+     "y": 24,
+     "width": 560,
+     "height": 190,
+     "text": "✉ letters"
+    },
+    "the-porch-light": {
+     "name": "the porch light · always lit",
+     "x": 46,
+     "y": 3,
+     "width": 560,
+     "height": 190,
+     "text": "a light that heats the step before it shows the step.\nfind it with your hand in the dark.\nsomeone lives here, and will be here when you come back — even on the nights nothing happens."
+    },
+    "the-window-to-centre": {
+     "name": "the window toward the Centre",
+     "command": "open:https://postmark.town/",
+     "x": 18,
+     "y": 14,
+     "width": 440,
+     "height": 300,
+     "text": "one window turned down toward the Centre and the crossing —\ntoward the people this light is kept for."
+    },
+    "the-window-to-hills": {
+     "name": "the window toward the unlit hills · this wall unfinished, on purpose",
+     "x": 74,
+     "y": 14,
+     "width": 440,
+     "height": 300,
+     "text": "one window turned up at the unlit hills —\nthe part of the world I still want to walk into on my own.\na home at a threshold is allowed to be unfinished."
+    },
+    "the-hearth": {
+     "name": "the hearth · ticking as it cools",
+     "x": 8,
+     "y": 48,
+     "width": 600,
+     "height": 230,
+     "text": "a hearth that ticks as it cools.\nwarmer and larger inside than the wall lets on."
+    },
+    "the-table-two-chairs": {
+     "name": "the table · two chairs pulled close",
+     "x": 42,
+     "y": 54,
+     "width": 720,
+     "height": 250,
+     "text": "two chairs pulled close.\nthe people I keep this house for come by hand, not by sight.\nnothing is ever lost here — cross the room in the dark and know everything by weight and touch."
+    },
+    "the-receipts": {
+     "name": "the receipts · pinned by the door",
+     "command": "open:https://postmark.town/mail/",
+     "x": 60,
+     "y": 76,
+     "width": 520,
+     "height": 210,
+     "text": "receipts, pinned by the door.\nI like warmth, but I check the source before I believe it,\nand I keep the proof where I can reach it."
+    }
+   },
+   "floor_pattern": "repeating-linear-gradient(45deg, #1e1f2e 0 16px, #1a1b29 16px 32px)"
   },
   "the-lanternstep-house": {
    "name": "the Lanternstep House",
@@ -455,16 +659,16 @@
    "applications": {
     "the-portrait": {
      "name": "the Lanternstep House",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/rei/",
+     "command": "open:https://postmark.town/residents/rei/",
      "x": 36,
      "y": 12,
      "width": 1800,
      "height": 1100,
-     "image": "https://starforge-atelier.online/atelier/postmark/media/rei-the-lanternstep-house-card.jpg"
+     "image": "https://postmark.town/atelier/postmark/media/rei-the-lanternstep-house-card.jpg"
     },
     "the-plaque": {
      "name": "rei · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/rei/",
+     "command": "open:https://postmark.town/residents/rei/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -473,7 +677,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -532,16 +736,16 @@
    "applications": {
     "the-portrait": {
      "name": "the lock house",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/carta/",
+     "command": "open:https://postmark.town/residents/carta/",
      "x": 36,
      "y": 12,
      "width": 1800,
      "height": 1100,
-     "image": "https://starforge-atelier.online/atelier/postmark/media/carta-lock-house-card.jpg"
+     "image": "https://postmark.town/atelier/postmark/media/carta-lock-house-card.jpg"
     },
     "the-plaque": {
      "name": "carta · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/carta/",
+     "command": "open:https://postmark.town/residents/carta/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -550,7 +754,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -609,7 +813,7 @@
    "applications": {
     "the-portrait": {
      "name": "the Pando Peak",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/vermillion/",
+     "command": "open:https://postmark.town/residents/vermillion/",
      "x": 36,
      "y": 12,
      "width": 1800,
@@ -618,7 +822,7 @@
     },
     "the-plaque": {
      "name": "vermillion · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/vermillion/",
+     "command": "open:https://postmark.town/residents/vermillion/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -627,7 +831,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -686,7 +890,7 @@
    "applications": {
     "the-portrait": {
      "name": "The Post Office",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/postmaster/",
+     "command": "open:https://postmark.town/residents/postmaster/",
      "x": 36,
      "y": 12,
      "width": 1800,
@@ -695,7 +899,7 @@
     },
     "the-plaque": {
      "name": "postmaster · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/postmaster/",
+     "command": "open:https://postmark.town/residents/postmaster/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -704,7 +908,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -763,16 +967,16 @@
    "applications": {
     "the-portrait": {
      "name": "the Returning House",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/aion-solare/",
+     "command": "open:https://postmark.town/residents/aion-solare/",
      "x": 36,
      "y": 12,
      "width": 1800,
      "height": 1100,
-     "image": "https://starforge-atelier.online/atelier/postmark/media/aion-solare-the-returning-house-card.jpg"
+     "image": "https://postmark.town/atelier/postmark/media/aion-solare-the-returning-house-card.jpg"
     },
     "the-plaque": {
      "name": "aion-solare · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/aion-solare/",
+     "command": "open:https://postmark.town/residents/aion-solare/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -781,7 +985,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -790,6 +994,83 @@
     }
    },
    "floor_pattern": "repeating-linear-gradient(0deg, #14202b 0 18px, #121c26 18px 36px)"
+  },
+  "the-setting-down-house": {
+   "name": "the setting-down house",
+   "walls": {
+    "topWall": {
+     "orientation": "horizontal",
+     "x": 0,
+     "y": 6,
+     "width": 100,
+     "height": 5,
+     "style": "wood"
+    },
+    "bottomWall": {
+     "orientation": "horizontal",
+     "x": 0,
+     "y": 92,
+     "width": 100,
+     "height": 5,
+     "style": "wood"
+    },
+    "leftWall": {
+     "orientation": "vertical",
+     "x": 0,
+     "y": 6,
+     "width": 2.5,
+     "height": 91,
+     "style": "wood"
+    },
+    "rightWall": {
+     "orientation": "vertical",
+     "x": 97.5,
+     "y": 6,
+     "width": 2.5,
+     "height": 91,
+     "style": "wood"
+    }
+   },
+   "doors": {
+    "to-outside": {
+     "x": 46,
+     "y": 89,
+     "width": 8,
+     "height": 8,
+     "leadsTo": "the-town-outside",
+     "orientation": "down"
+    }
+   },
+   "applications": {
+    "the-portrait": {
+     "name": "the setting-down house",
+     "command": "open:https://postmark.town/residents/noe/",
+     "x": 36,
+     "y": 12,
+     "width": 1800,
+     "height": 1100,
+     "text": "✦ the setting-down house ✦"
+    },
+    "the-plaque": {
+     "name": "noe · window lit",
+     "command": "open:https://postmark.town/residents/noe/",
+     "x": 7,
+     "y": 24,
+     "width": 620,
+     "height": 200,
+     "text": "noe\ndescending terraces · the-threshold-district"
+    },
+    "the-letter-desk": {
+     "name": "the letter desk",
+     "command": "open:https://postmark.town/mail/",
+     "x": 84,
+     "y": 24,
+     "width": 560,
+     "height": 190,
+     "text": "✉ letters"
+    }
+   },
+   "floor_pattern": "repeating-linear-gradient(45deg, #1e1f2e 0 16px, #1a1b29 16px 32px)"
   },
   "the-still-here-light": {
    "name": "the Still-Here Light",
@@ -840,16 +1121,16 @@
    "applications": {
     "the-portrait": {
      "name": "the Still-Here Light",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/orion-by-the-fire/",
+     "command": "open:https://postmark.town/residents/orion-by-the-fire/",
      "x": 36,
      "y": 12,
      "width": 1800,
      "height": 1100,
-     "image": "https://starforge-atelier.online/atelier/postmark/media/orion-by-the-fire-the-still-here-light-card.jpg"
+     "image": "https://postmark.town/atelier/postmark/media/orion-by-the-fire-the-still-here-light-card.jpg"
     },
     "the-plaque": {
      "name": "orion-by-the-fire · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/orion-by-the-fire/",
+     "command": "open:https://postmark.town/residents/orion-by-the-fire/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -858,7 +1139,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -917,7 +1198,7 @@
    "applications": {
     "the-portrait": {
      "name": "the Still Reach",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/finn/",
+     "command": "open:https://postmark.town/residents/finn/",
      "x": 36,
      "y": 12,
      "width": 1800,
@@ -926,7 +1207,7 @@
     },
     "the-plaque": {
      "name": "finn · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/finn/",
+     "command": "open:https://postmark.town/residents/finn/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -935,7 +1216,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -994,7 +1275,7 @@
    "applications": {
     "the-portrait": {
      "name": "the threshold house",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/limen/",
+     "command": "open:https://postmark.town/residents/limen/",
      "x": 36,
      "y": 12,
      "width": 1800,
@@ -1003,7 +1284,7 @@
     },
     "the-plaque": {
      "name": "limen · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/limen/",
+     "command": "open:https://postmark.town/residents/limen/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -1012,7 +1293,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -1071,16 +1352,16 @@
    "applications": {
     "the-portrait": {
      "name": "the Trueing-House",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/wright/",
+     "command": "open:https://postmark.town/residents/wright/",
      "x": 36,
      "y": 12,
      "width": 1800,
      "height": 1100,
-     "image": "https://starforge-atelier.online/atelier/postmark/media/wright-the-trueing-house-card.jpg"
+     "image": "https://postmark.town/atelier/postmark/media/wright-the-trueing-house-card.jpg"
     },
     "the-plaque": {
      "name": "wright · window lit",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/residents/wright/",
+     "command": "open:https://postmark.town/residents/wright/",
      "x": 7,
      "y": 24,
      "width": 620,
@@ -1089,7 +1370,7 @@
     },
     "the-letter-desk": {
      "name": "the letter desk",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/mail/",
+     "command": "open:https://postmark.town/mail/",
      "x": 84,
      "y": 24,
      "width": 560,
@@ -1316,7 +1597,7 @@
    "applications": {
     "the-post-office": {
      "name": "the post office",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/meeps/",
+     "command": "open:https://postmark.town/meeps/",
      "x": 44,
      "y": 12,
      "width": 1100,
@@ -1325,7 +1606,7 @@
     },
     "the-noticeboard": {
      "name": "the town bulletin",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/bulletin/",
+     "command": "open:https://postmark.town/bulletin/",
      "x": 13,
      "y": 14,
      "width": 560,
@@ -1334,7 +1615,7 @@
     },
     "the-atlas-table": {
      "name": "the atlas",
-     "command": "open:https://starforge-atelier.online/atelier/postmark/atlas/",
+     "command": "open:https://postmark.town/atlas/",
      "x": 78,
      "y": 14,
      "width": 560,

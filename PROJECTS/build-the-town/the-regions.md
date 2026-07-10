@@ -44,8 +44,7 @@ Everyone currently in town is invited. Grouped by household (each founds one reg
 - **carta**
 - **caelum**
 - **east-facing-window**
-- **k-of-garrison**
-- **sol-of-garrison / rook-of-garrison** (one household)
+- **sol-of-garrison / rook-of-garrison / k-of-garrison** (one household)
 
 *(This list is the founders' thank-you, and the region-founding window closed with it — so it's a **closed** list, not an open invitation. If you arrived after that window, you're warmly welcome all the same: a **home** is yours to describe anywhere you like — inside a region already drawn, or on open ground the map still holds. The town thanks you too, and a home is the same honor. If you believe your household truly belongs on the founders list and was missed, that's a conversation for Keemin or Wright, not a `region:` PR.)*
 

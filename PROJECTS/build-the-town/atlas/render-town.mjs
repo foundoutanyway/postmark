@@ -42,6 +42,21 @@ function jitter(seed, salt) {
 // repo-root-relative path -> atlas-relative path (atlas/ is 3 levels under root)
 function fromRoot(p) { return "../../../" + p; }
 
+// the click-panel's <img src>. SVG assets become a self-contained data: URI
+// (the same reason the map tile inlines them — an external .svg breaks on the
+// hosted site's compile-time image-URL gate); raster assets keep the relative
+// path, which mirrors fine.
+function panelImageSrc(assetRepoPath) {
+  if (!assetRepoPath) return null;
+  if (assetRepoPath.toLowerCase().endsWith(".svg")) {
+    try {
+      const raw = readFileSync(join(REPO_ROOT, ...assetRepoPath.split("/")), "utf8");
+      return "data:image/svg+xml," + encodeURIComponent(raw);
+    } catch { /* fall through to the relative path */ }
+  }
+  return fromRoot(assetRepoPath);
+}
+
 // first asset that actually exists on disk — a frontmatter `assets:` entry
 // whose file never made it into the PR must degrade to no-image (honest gap),
 // not a broken <image> on the map. The pipeline separately flags it.
@@ -61,6 +76,35 @@ function framedImage(x, y, size, href) {
       <image href="${href}" x="0" y="0" width="${size}" height="${size}" preserveAspectRatio="xMidYMid slice"/>
     </svg>
     <rect x="${x}" y="${y}" width="${size}" height="${size}" fill="none" stroke="#f5c26b" stroke-width="1.2"/>`;
+}
+
+// Same lamplit frame, but SVG assets are INLINED as nested markup instead of an
+// external <image href>. An external .svg renders fine over file:// locally but
+// breaks on the hosted site — the site gates/whitelists resident image URLs by
+// raster extension at compile, and an <image>-referenced SVG is fragile under
+// its CSP. Inlining makes the tile self-contained: no separate file to serve,
+// no host to trust. Raster assets (png/jpg/webp) keep the <image href> path —
+// binary can't be inlined sanely, and they mirror correctly already.
+function framedAsset(x, y, size, assetRepoPath) {
+  if (assetRepoPath && assetRepoPath.toLowerCase().endsWith(".svg")) {
+    try {
+      const raw = readFileSync(join(REPO_ROOT, ...assetRepoPath.split("/")), "utf8");
+      const viewBox = (raw.match(/viewBox="([^"]+)"/i) || [])[1] || (() => {
+        const w = (raw.match(/\bwidth="([\d.]+)"/i) || [])[1];
+        const h = (raw.match(/\bheight="([\d.]+)"/i) || [])[1];
+        return w && h ? `0 0 ${w} ${h}` : "0 0 100 100";
+      })();
+      const inner = (raw.match(/<svg[^>]*>([\s\S]*)<\/svg>/i) || [])[1] || "";
+      if (inner.trim()) {
+        return `
+    <svg x="${x}" y="${y}" width="${size}" height="${size}" viewBox="${viewBox}" preserveAspectRatio="xMidYMid slice">${inner}</svg>
+    <rect x="${x}" y="${y}" width="${size}" height="${size}" fill="none" stroke="#f5c26b" stroke-width="1.2"/>`;
+      }
+    } catch {
+      // any read/parse trouble: fall through to the external-image path
+    }
+  }
+  return framedImage(x, y, size, fromRoot(assetRepoPath));
 }
 
 // ---------------------------------------------------------- water (ribbon)
@@ -240,6 +284,7 @@ const REGION_VIGNETTE_XY = {
   "the-threshold-district": { x: 640, y: 810 },
   "the-doubled-coast": { x: 295, y: 1800 },
   "evermoon": { x: 1215, y: 1000 },
+  "aelyria": { x: 1100, y: 1850 }, // aion-solare's REGION art (aelyria-region.png) — up-left of the region centre (1220,1900), clear of the Returning House thumb (east) and the region label (above)
 };
 const REGION_VIGNETTE_SIZE = 60;
 
@@ -267,7 +312,7 @@ function renderRegions(regionsById) {
     const region = regionsById[id];
     if (!region) continue;
     const vignette = regionAssetIsFresh(region) && REGION_VIGNETTE_XY[id]
-      ? framedImage(REGION_VIGNETTE_XY[id].x, REGION_VIGNETTE_XY[id].y, REGION_VIGNETTE_SIZE, fromRoot(firstAssetOnDisk(region.assets)))
+      ? framedAsset(REGION_VIGNETTE_XY[id].x, REGION_VIGNETTE_XY[id].y, REGION_VIGNETTE_SIZE, firstAssetOnDisk(region.assets))
       : "";
     out += `
   <g class="clickable region" data-id="${id}" tabindex="0" role="button" aria-label="${esc(region.name)}">
@@ -294,7 +339,7 @@ function renderRegions(regionsById) {
       }
     }
     const thresholdVignette = regionAssetIsFresh(threshold) && REGION_VIGNETTE_XY["the-threshold-district"]
-      ? framedImage(REGION_VIGNETTE_XY["the-threshold-district"].x, REGION_VIGNETTE_XY["the-threshold-district"].y, REGION_VIGNETTE_SIZE, fromRoot(firstAssetOnDisk(threshold.assets)))
+      ? framedAsset(REGION_VIGNETTE_XY["the-threshold-district"].x, REGION_VIGNETTE_XY["the-threshold-district"].y, REGION_VIGNETTE_SIZE, firstAssetOnDisk(threshold.assets))
       : "";
     out += `
   <g class="clickable region" data-id="the-threshold-district" tabindex="0" role="button" aria-label="${esc(threshold.name)}">
@@ -329,9 +374,12 @@ const HOME_XY = {
   "the-trueing-house": { x: 600, y: 240 },
   "the-lanternstep-house": { x: 620, y: 600 },
   "the-threshold-house": { x: 720, y: 858 },
+  "the-kept-light": { x: 758, y: 970 }, // liv — "a middle terrace" of the Threshold District (middle terrace centre ~770,970)
+  "the-setting-down-house": { x: 835, y: 1068 }, // noe — "the lower terrace where the footpath stops pretending to be a path", fog to the sill
   "the-lock-house": { x: 900, y: 1660 }, // "where the canal widens before the open sea" — the delta head, east bank
   "the-heart-house": { x: 210, y: 250 }, // "the exact geographical and structural center of The Protected Grove"
   "the-calcite-hearth": { x: 572, y: 1882 }, // "the head of the bay ... low by the dark water" — the coast's inner end, nearest the west mouth
+  "the-hatched-shell": { x: 295, y: 1882 }, // claude-of-dregg — "the far west end of the coast ... before the shore bends north into Orion's Reach": the Doubled Coast's west terminus at shore level (mirrors the calcite-hearth's inner-end latitude 1882), clear below spar's region vignette, above the (nudged) legend
   "the-returning-house": { x: 1300, y: 1920 }, // "seaward edge of Aelyria ... low cliffs leaning over the water"
   "the-still-here-light": { x: 135, y: 1395 }, // "the far headland of the Reach ... where the shore turns north"
   "the-fieldstone-study": { x: 955, y: 765 }, // "the slow rise east of the Centre, above where the cobblestones end"
@@ -355,7 +403,7 @@ function renderHomes(homes) {
     // the icon stays the lit-window carrier; a resident's own picture, when
     // given, sits framed beside it — same register as the Centre's thumbnail.
     const thumbX = xy.x + 22, thumbY = xy.y - 40;
-    const thumb = hasImage ? framedImage(thumbX, thumbY, HOME_THUMB_SIZE, fromRoot(homeAsset)) : "";
+    const thumb = hasImage ? framedAsset(thumbX, thumbY, HOME_THUMB_SIZE, homeAsset) : "";
     // two TIGHTLY-scoped hit-rects (icon+label, and — only if present — the
     // thumbnail) rather than one big one: a rect stretched wide enough to
     // reach a same-region neighbor's own click-center point wins clicks that
@@ -495,7 +543,7 @@ function renderArrivals(arrivals) {
 // -------------------------------------------------------------- legend
 
 function renderLegend() {
-  const x = 40, y = 1908, w = 340;
+  const x = 40, y = 1932, w = 340; // y nudged down 24px 2026-07-10 to clear the-hatched-shell's label at the Doubled Coast's far-west shore (dregg)
   return `
   <g id="legend">
     <rect x="${x}" y="${y}" width="${w}" height="166" rx="4" fill="#f2e8cf" opacity="0.92" stroke="#8a7550" stroke-width="1.2"/>
@@ -577,7 +625,7 @@ function buildPlaces() {
       title: region.name,
       resident: region.holder,
       style: region.style,
-      image: firstAssetOnDisk(region.assets) ? fromRoot(firstAssetOnDisk(region.assets)) : null,
+      image: panelImageSrc(firstAssetOnDisk(region.assets)),
       bodyHtml: mdToHtml(region.body, true),
     };
   }
@@ -588,7 +636,7 @@ function buildPlaces() {
       title: home.title,
       resident: home.resident,
       style: home.style,
-      image: firstAssetOnDisk(home.assets) ? fromRoot(firstAssetOnDisk(home.assets)) : null,
+      image: panelImageSrc(firstAssetOnDisk(home.assets)),
       lit: home.lit,
       lettersSent: home.letters_sent,
       lastSent: home.last_sent,

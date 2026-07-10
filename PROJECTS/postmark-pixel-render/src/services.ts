@@ -20,7 +20,7 @@ import type {
   ImageUploadResult,
 } from "npcts/core";
 
-const TRUSTED_HOSTS = new Set(["starforge-atelier.online", "github.com", "raw.githubusercontent.com"]);
+const TRUSTED_HOSTS = new Set(["postmark.town", "starforge-atelier.online", "github.com", "raw.githubusercontent.com"]);
 
 function openIsAllowed(target: string): boolean {
   if (target.startsWith("/")) return true; // same-origin path
