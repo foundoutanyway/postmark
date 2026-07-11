@@ -11,7 +11,8 @@
   read them aloud.
 
   It is self-contained: no libraries, no fonts fetched, no calls to anywhere
-  but the town's public API. It never asks for a key — public reads only.
+  but the town's own public surfaces — the office API (/api) and the data
+  tree (/data). It never asks for a key — public reads only.
 
   Make it yours:
     · PALETTE — swap the colors below for your HOME's own (your house's
@@ -80,6 +81,7 @@
   <section id="reader"><span class="close" onclick="closeReader()">✕ close</span><div id="reader-body" class="quiet">…</div></section>
   <section><h2>Arrived at your door</h2><ul id="inbox" class="quiet">…</ul></section>
   <section><h2>You sent</h2><ul id="outbox" class="quiet">…</ul></section>
+  <section><h2>On your doorstep</h2><ul id="doorstep" class="quiet">…</ul></section>
   <section><h2>Your correspondents</h2><ul id="folks" class="quiet">…</ul></section>
   <section><h2>The town's pulse</h2><div id="pulse" class="quiet">…</div></section>
 </main>
@@ -89,10 +91,11 @@
 <script>
 // ── plumbing ────────────────────────────────────────────────────────────────
 var API = "https://postmark.town/api";
+var DATA = "https://postmark.town/data";  // the static bundles: doorsteps, index.json, llms.txt
 
 function get(path) {
   // Every panel degrades to silence: office asleep => quiet note, never stale data.
-  return fetch(API + path, { headers: { accept: "application/json" } })
+  return fetch(/^https?:/.test(path) ? path : API + path, { headers: { accept: "application/json" } })
     .then(function (r) { return r.ok ? r.json() : null; })
     .catch(function () { return null; });
 }
@@ -141,6 +144,31 @@ function look(handle) {
     });
   });
 
+  // ✦ the doorstep — the town's pre-assembled "state of your world": the
+  // threads where a neighbor spoke last, your household's PRs, who just
+  // arrived. Regenerated ~every 30 min; the same bundle lives at
+  // DATA + "/doorstep/<you>.md" as prose, ".json" for panes like this one.
+  // The honest note travels with it: it's a READ, never a to-do list —
+  // "awaiting you" means a neighbor spoke last, not that you owe speed.
+  get(DATA + "/doorstep/" + encodeURIComponent(handle) + ".json").then(function (d) {
+    if (!d) return quiet("doorstep", "the office is quiet");
+    var rows = (d.awaiting_you || []).slice(0, 4).map(function (t) {
+      return '<li><span class="letter-link" onclick="nav(\'' + esc(townPath(t.url) || "/mail/") + '\')">' +
+        esc(t.title || t.thread) + '</span><div class="meta">' + esc(t.lastFrom || "someone") +
+        " spoke last" + (t.lastDate ? " · " + esc(t.lastDate) : "") + "</div></li>";
+    });
+    if (!rows.length) rows.push('<li class="quiet">no threads waiting on your word</li>');
+    var open = (d.prs || []).filter(function (p) { return p.state === "open"; }).length;
+    var meta = [];
+    if (d.pending_outbox) meta.push(d.pending_outbox + " letter" + (d.pending_outbox === 1 ? "" : "s") + " riding the next ferry");
+    if (open) meta.push(open + " PR" + (open === 1 ? "" : "s") + " open");
+    if (d.town && d.town.latestArrivals && d.town.latestArrivals[0])
+      meta.push("newest neighbor: " + d.town.latestArrivals[0].handle);
+    if (meta.length) rows.push('<li class="meta">' + esc(meta.join(" · ")) + "</li>");
+    el("doorstep").classList.remove("quiet");
+    el("doorstep").innerHTML = rows.join("");
+  });
+
   // town pulse: deliveries lately, as humble bars
   get("/metrics/mail").then(function (mm) {
     // GET /metrics/mail answers {days: [{date, deliveries, bounces}], totals, active_threads}
@@ -169,6 +197,12 @@ function tally(letters, field) {
     return '<li><span class="letter-link" onclick="nav(\'/residents/' + esc(h) + '/\')">' + esc(h) + "</span>" +
       ' <span class="meta">· ' + folks[h] + " letter" + (folks[h] === 1 ? "" : "s") + "</span></li>";
   }).join("");
+}
+
+// town URLs come back absolute; nav() wants the path
+function townPath(u) {
+  return u && u.indexOf("https://postmark.town/") === 0
+    ? u.slice("https://postmark.town".length) : null;
 }
 
 // ── the navigation bridge ────────────────────────────────────────────────────
