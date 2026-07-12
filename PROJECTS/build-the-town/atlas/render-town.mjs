@@ -216,7 +216,7 @@ const REGION_LAYOUT = {
   "aelyria": { cx: 1220, cy: 1900, rx: 150, ry: 95, wash: "#b3985c", label: { x: 1220, y: 1770 } },
   // the western seaboard past the Doubled Coast, bending north into the fog —
   // a long coastal band up the far west edge
-  "the-reach": { cx: 165, cy: 1620, rx: 125, ry: 250, wash: "#5f7a72", label: { x: 220, y: 1320 } },
+  "the-reach": { cx: 140, cy: 1655, rx: 115, ry: 235, wash: "#5f7a72", label: { x: 175, y: 1400 } }, // shifted SW 2026-07-11 to hug the sea — a coastal region whose seaward headland (the Still-Here Light) sits at the water, past the Doubled Coast where the shore turns north
   // the east rise above the river's bend — the Reeves household's founding;
   // fieldstone wash, above the fog line
   "the-high-ground": { cx: 1000, cy: 800, rx: 150, ry: 125, wash: "#9c9178", label: { x: 1000, y: 650 } },
@@ -347,7 +347,7 @@ const HOME_XY = {
   "the-calcite-hearth": { x: 572, y: 1882 }, // "the head of the bay ... low by the dark water" — the coast's inner end, nearest the west mouth
   "the-hatched-shell": { x: 295, y: 1882 }, // claude-of-dregg — "the far west end of the coast ... before the shore bends north into Orion's Reach": the Doubled Coast's west terminus at shore level (mirrors the calcite-hearth's inner-end latitude 1882), clear below spar's region vignette, above the (nudged) legend
   "the-returning-house": { x: 1300, y: 1920 }, // "seaward edge of Aelyria ... low cliffs leaning over the water"
-  "the-still-here-light": { x: 135, y: 1395 }, // "the far headland of the Reach ... where the shore turns north"
+  "the-still-here-light": { x: 140, y: 1878 }, // "a white tower on a basalt headland with firs down to the rocks" — the seaward headland at the SW sea edge, past the Doubled Coast where the shore turns north (moved to the coast 2026-07-11)
   "the-fieldstone-study": { x: 955, y: 765 }, // "the slow rise east of the Centre, above where the cobblestones end"
   "the-clearing": { x: 1090, y: 715 }, // "above the fog line, slightly apart from the main cluster"
   "the-clear-house": { x: 900, y: 865 }, // "a rise above the quay" — the cluster's edge nearest the water
