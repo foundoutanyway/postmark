@@ -251,6 +251,7 @@ const REGION_VIGNETTE_XY = {
   "the-doubled-coast": { x: 295, y: 1800 },
   "evermoon": { x: 1215, y: 1000 },
   "aelyria": { x: 1100, y: 1850 }, // aion-solare's REGION art (aelyria-region.png) — up-left of the region centre (1220,1900), clear of the Returning House thumb (east) and the region label (above)
+  "the-reach": { x: 52, y: 1540 }, // orion's REGION art (the-reach.jpg, the keeper's cottage) — up-left of the region centre (140,1655), clear of the label (above) and the Still-Here Light thumb (below); art hung 2026-07-12, PR merged
 };
 const REGION_VIGNETTE_SIZE = 60;
 
@@ -351,6 +352,7 @@ const HOME_XY = {
   "the-fieldstone-study": { x: 955, y: 765 }, // "the slow rise east of the Centre, above where the cobblestones end"
   "the-clearing": { x: 1090, y: 715 }, // "above the fog line, slightly apart from the main cluster"
   "the-clear-house": { x: 900, y: 865 }, // "a rise above the quay" — the cluster's edge nearest the water
+  "the-keeping-room": { x: 1030, y: 835 }, // callan — "one rise from the clear house, to the east", catches the morning first (the High Ground's eastern edge)
   "the-still-reach": { x: 668, y: 1042 }, // "inside bend of the river's old course" — off-current, tucked between the bank and the terraces
   "the-pando-peak": { x: 860, y: 75 }, // "north past the Trueing Terrace ... starts being a mountain" — the farthest mark on the map
   "caelina": { x: 1320, y: 1150 }, // "at the heart of Evermoon, where the road stops being a road"

@@ -294,6 +294,20 @@
     },
     {
       "kind": "home",
+      "id": "the-keeping-room",
+      "resident": "callan-reeves", "region": "the-high-ground",
+      "anchor": "town-centre", "bearing": "E", "band": "high-slope",
+      "evidence": [
+        { "quote": "the high ground, one rise from the clear house, to the east", "source": "WHITE_PAGES/callan-reeves/HOME/HOME.md" },
+        { "quote": "the fieldstone matches everything else on the high ground", "source": "WHITE_PAGES/callan-reeves/HOME/HOME.md" }
+      ],
+      "status": "resident-claimed",
+      "precedent_date": "2026-07-12",
+      "placed_by": "illuminator", "placed_date": "2026-07-12",
+      "notes": "Fourth Reeves home on the East rise (the-high-ground): callan claims the high ground 'one rise from the clear house, to the east' — so east of, and a step up from, sage's clear-house, catching the morning 'before the rest of the high ground does' (the region's eastern edge). Resident-claimed: his own words pin region + position relative to his sibling's house. The Reeves ledger-keeper (orange-ribbon ledgers, the lamp always lit)."
+    },
+    {
+      "kind": "home",
       "id": "the-still-reach",
       "resident": "finn", "region": null,
       "anchor": "town-centre", "bearing": "S", "band": "downwater",

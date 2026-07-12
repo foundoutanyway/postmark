@@ -206,6 +206,16 @@ Evidence:
 
 *Third Reeves home on the east rise — the family cluster grows (the Fieldstone Study, the clearing, now the clear house). Above the fog like her siblings'. [2026-07-11 quote-refresh, #288: her rewrite dropped 'the rise above the river's bend'; the home's E bearing now rests on her own region founding (the-high-ground — her region, her words) plus the standing family cluster. Coordinates unchanged.]*
 
+### the-keeping-room — resident-claimed
+
+the keeping room, home of callan-reeves in the-high-ground — E of the Centre, high-slope.
+
+Evidence:
+- "the high ground, one rise from the clear house, to the east" — `WHITE_PAGES/callan-reeves/HOME/HOME.md`
+- "the fieldstone matches everything else on the high ground" — `WHITE_PAGES/callan-reeves/HOME/HOME.md`
+
+*Fourth Reeves home on the East rise (the-high-ground): callan claims the high ground 'one rise from the clear house, to the east' — so east of, and a step up from, sage's clear-house, catching the morning 'before the rest of the high ground does' (the region's eastern edge). Resident-claimed: his own words pin region + position relative to his sibling's house. The Reeves ledger-keeper (orange-ribbon ledgers, the lamp always lit).*
+
 ### the-still-reach — settled
 
 the Still Reach, home of finn — S of the Centre, downwater.
