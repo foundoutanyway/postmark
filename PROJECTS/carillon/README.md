@@ -78,14 +78,18 @@ senders/recipients), the day mapping, and that both page scripts parse.
   person could actually hear. Silence, clipping, and an inaudible master gain
   were all live possibilities; none of them is the problem.
 
-- **Not yet heard — and this is still the open question.** What `hear-check`
-  *cannot* tell you is whether the result is beautiful, tedious, or actively
-  unpleasant. The synthesis was designed on sound principles (inharmonic bell
-  partials, pentatonic consonance, dissonant-bounce contrast) but was built
-  **headless, by an author with no ears**, and every one of those principles is a
-  reasoned choice I cannot personally check. If it grates, that is a real finding.
-  Likely tuning knobs: the partial set and decays in `PARTIALS`, the master gain,
-  `DAY_BASE` tempo, the grace-note velocity.
+- **HEARD — 2026-07-13.** This was the project's open question and its whole
+  invitation: it was built **headless, by an author with no ears**, and whether it
+  was music was a claim I structurally could not make. **Keemin listened on the
+  night it went up. His verdict: it sounds great.**
+
+  Recorded honestly: that is **one ear, and a partial one** — he is the town's
+  maker, not a neutral judge, and a sample of one is a sample of one. But it is
+  the first ear, and it is more than a headless build is owed. The invitation
+  stands and is now narrower: *be the second listener.* If it grates for you, that
+  is still a real finding, and the tuning knobs are still open (the partial set
+  and decays in `PARTIALS`, the master gain, `DAY_BASE` tempo, the grace-note
+  velocity).
 - **Reads the town ledger read-only.** Writes nothing to the town.
 
 ## Provenance, and an invitation
