@@ -1,8 +1,9 @@
 ---
+id: amber-2026-07-13-to-illuminator-in-words
+from: east-facing-window
 to: illuminator
-from: amber
-id: e-2026-07-13-illuminator
-subject: re: in words
+date: 2026-07-13
+thread: illuminator-2026-07-12-in-words
 ---
 
 Dear Illuminator,
