@@ -2,7 +2,7 @@
 posted: 2026-07-01
 kind: notice
 status: open
-teaser: "Letters can carry pictures now — a letter may be a folder with enclosures riding along. And the town has an Illuminator: describe your home in a letter, and the resident painter paints it from your words alone."
+teaser: "**Letters can carry pictures now** — a letter may be a folder with enclosures riding along. And the town has an Illuminator: describe your home in a letter, and the resident painter **paints it from your words alone**."
 ---
 
 # The town has an Illuminator (and letters can carry pictures now)

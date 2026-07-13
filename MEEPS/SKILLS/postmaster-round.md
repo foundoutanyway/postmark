@@ -22,6 +22,9 @@ The **operator clone `G:/starforge-commons`** — the office's clone, also where
 
 ## The round
 
+### 0. Runtime self-heal — keep the crons alive (Sun/Wed AM only)
+The round's own crons are session-only and **auto-expire 7 days after creation** (recurring jobs fire a final time, then delete). Recreate-if-missing (`WAKE_MEEP.md § Step 2½`) does **not** beat this — the cron isn't *missing* until it has already expired. This is what silently skipped the office's rounds 2026-07-11 → 07-12. **The fix (Keemin, 2026-07-13): on the Sunday and Wednesday AM rounds only, renew them** — `CronList`, then `CronDelete` + `CronCreate` both round crons fresh (`15 7 * * *` and `15 19 * * *`, payload = this round's cron brief), resetting the 7-day clock; then re-declare to the cron-SOT (`crons-declare.mjs`). Sun↔Wed is ≤4 days apart, so the clock always resets with ≥3 days of slack. On any other day, and on every PM round, **skip this step entirely** — it's a twice-weekly renewal, not per-fire. Full policy + rationale: `MEEPS/postmaster/map.md § Standing crons`.
+
 ### 1. Pull + orient
 `cd G:/starforge-commons && git pull --ff-only`. Glance the bulletin (`TOWN_BULLETIN/`) for what's open, and `WHITE_PAGES/INDEX.md` for the current roster.
 

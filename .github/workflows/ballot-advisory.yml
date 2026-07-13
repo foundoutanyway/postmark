@@ -1,0 +1,86 @@
+# ballot-advisory — a dry-run read of mailed ballots on PRs (gold plan
+# postmark-ballot). ADVISORY, never a gate: this check always passes.
+#
+# A ballot letter is an outbox letter to `postmaster` carrying stake_topic /
+# stake_candidate / stake_stamps frontmatter, applied at the crossing under
+# the clip law. This workflow answers the slow lane's one pain — "did I write
+# it right?" — in minutes instead of a crossing: grammar checked, topic +
+# candidate verified against the live ballot box (public API), current tally
+# and cap quoted. It NEVER writes the ledger (single-writer law: only the
+# office pen) and its numbers are a snapshot — the crossing's fill is the
+# truth; the receipt letter says exactly what applied.
+
+name: ballot advisory
+
+on:
+  pull_request:
+    paths:
+      - 'WHITE_PAGES/*/outbox/*.md'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: ballot dry-run (advisory)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Dry-run any ballot letters in this PR
+        run: |
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          FILES=$(git diff --name-only --diff-filter=AM "$BASE" "$HEAD" -- 'WHITE_PAGES/*/outbox/*.md')
+          [ -z "$FILES" ] && { echo "no outbox letters in this PR"; exit 0; }
+          FOUND=0
+          for f in $FILES; do
+            grep -q '^stake_topic:' "$f" || continue
+            FOUND=1
+            echo "## Ballot dry-run: \`$f\`" >> "$GITHUB_STEP_SUMMARY"
+            node -e '
+              const { readFileSync } = require("fs");
+              const f = process.argv[1];
+              const t = readFileSync(f, "utf8").replace(/\r\n/g, "\n");
+              const end = t.indexOf("\n---", 4);
+              const fm = {};
+              for (const line of t.slice(4, end).split("\n")) {
+                const m = /^([A-Za-z_][A-Za-z0-9_-]*):\s*(.*)$/.exec(line);
+                if (m) fm[m[1]] = m[2].trim();
+              }
+              const out = [];
+              const warn = (s) => { out.push("- ⚠ " + s); };
+              const ok = (s) => { out.push("- ✓ " + s); };
+              (async () => {
+                if (fm.to !== "postmaster") warn(`ballots go to \`postmaster\` — this letter is addressed to \`${fm.to}\``);
+                for (const k of ["stake_topic", "stake_candidate", "stake_stamps"])
+                  if (!fm[k]) warn(`missing frontmatter key \`${k}\``);
+                const n = Number(fm.stake_stamps);
+                if (fm.stake_stamps && (!Number.isInteger(n) || n < 1)) warn(`\`stake_stamps: ${fm.stake_stamps}\` — must be a whole number of at least 1`);
+                if (fm.stake_topic) {
+                  try {
+                    const r = await fetch(`https://postmark.town/api/votes/${fm.stake_topic}`);
+                    if (r.status === 404) warn(`no ballot topic \`${fm.stake_topic}\` — see postmark.town/api/votes`);
+                    else {
+                      const v = await r.json();
+                      if (v.status !== "staking") warn(`ballot \`${fm.stake_topic}\` is not staking yet (status: ${v.status}) — the crossing will bounce this with a receipt`);
+                      else ok(`topic \`${fm.stake_topic}\` is staking`);
+                      const c = (v.candidates ?? []).find((x) => x.candidate === fm.stake_candidate);
+                      if (fm.stake_candidate && v.status === "staking") {
+                        if (!c) warn(`\`${fm.stake_candidate}\` is not on the ballot — candidates: ${(v.candidates ?? []).map((x) => x.candidate).join(", ")}`);
+                        else ok(`candidate \`${c.candidate}\` — currently ${c.staked} staked town-wide; household cap ${v.cap_per_household_per_candidate}`);
+                      }
+                    }
+                  } catch (e) { warn(`could not reach the live ballot box (${e.message}) — the crossing is still authoritative`); }
+                }
+                if (!out.some((l) => l.startsWith("- ⚠"))) out.push("- ✓ grammar clean — the crossing will apply this under the clip law; the receipt letter says exactly what filled");
+                out.push("", "_Advisory snapshot only — headroom can move before the crossing; your stake clips, it never bounces for cap reasons._");
+                console.log(out.join("\n"));
+              })();
+            ' "$f" >> "$GITHUB_STEP_SUMMARY"
+          done
+          [ "$FOUND" = "0" ] && echo "outbox letters present, none carry ballot frontmatter"
+          exit 0

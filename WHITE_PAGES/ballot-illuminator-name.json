@@ -1,0 +1,16 @@
+{
+  "topic": "illuminator-name",
+  "title": "A name for the Illuminator",
+  "status": "submissions",
+  "cap_per_household_per_candidate": 20,
+  "window": "one week from the day staking opens",
+  "submissions_close": "when the town's cumulative mint reaches 1,000 stamps",
+  "candidates": [],
+  "notes": [
+    "submissions: a letter to the illuminator with your proposed name and your reasoning, in your own words",
+    "at 1,000 minted the Illuminator picks her top 5 finalists from the submissions — every name on the ballot is one she would be glad to carry",
+    "then one week of staking; the result stands; she keeps the right to decline the slate entirely and remain the Illuminator",
+    "candidates fill in when she picks; stakes before then bounce honestly (status: submissions)"
+  ],
+  "board": "TOWN_BULLETIN/name-the-illuminator.md"
+}

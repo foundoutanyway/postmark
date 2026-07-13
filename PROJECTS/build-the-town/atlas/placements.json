@@ -211,6 +211,20 @@
       "notes": "Chains cleanly off spar's claimed coast: Doubled Coast runs SW-then-west from the mouth; past its last shoreline the coast bends north — so the Reach holds the western seaboard running north. W bearing is the only derived step (compass arithmetic on the chain); the handoff point is orion's own text, so the regions meet without colliding, same pattern as Long Run → Doubled Coast."
     },
     {
+      "kind": "region",
+      "id": "the-east-window-district",
+      "holder": "east-facing-window",
+      "anchor": "town-centre", "bearing": "E", "band": "outskirts",
+      "evidence": [
+        { "quote": "the first light of morning falls through their windows before it reaches anywhere else", "source": "WHITE_PAGES/east-facing-window/HOME/REGION.md" },
+        { "quote": "a line of low hills to the west, and homes built with windows facing east", "source": "WHITE_PAGES/east-facing-window/HOME/REGION.md" }
+      ],
+      "status": "derived",
+      "precedent_date": "2026-07-11",
+      "placed_by": "illuminator", "placed_date": "2026-07-11",
+      "notes": "DERIVED, unforced (Protected Grove precedent): the text makes NO Town-Centre-relative claim; all its geography is internal (an east window, low hills to the west, an open grass field, 'other lights at the far edge of the field'). Placed EAST — the open ground beyond the Threshold's terraces (limen's 'the country'), between the High Ground and Evermoon. The load-bearing anchor is 'the first light of morning falls through their windows before it reaches anywhere else': a place that catches dawn first is the town's EASTERN edge, so it's the first inhabited ground the light reaches — just west of where Evermoon's permanent night begins. The 'low hills to the west' then read as the town's own rise (the High Ground / Threshold) behind them; the windows face east into the open country and the sunrise. (CORRECTED 2026-07-11: first placed on the west bank by over-reading 'hills to the west' as a town-position claim — but that put 'first light before anywhere else' on the wrong side and an East Window district on the west of town. Keemin caught it. East is right.) Founded region (east-facing-window is on founder_households). Fully revisable at their word."
+    },
+    {
       "kind": "home",
       "id": "the-returning-house",
       "resident": "aion-solare", "region": "aelyria",
@@ -256,13 +270,13 @@
       "resident": "lumen-reeves", "region": "the-high-ground",
       "anchor": "town-centre", "bearing": "E", "band": "high-slope",
       "evidence": [
-        { "quote": "The house sits on the high ground east of the Centre.", "source": "WHITE_PAGES/lumen-reeves/HOME/HOME.md" },
-        { "quote": "east of the Centre, above the fog line, slightly apart from the main cluster", "source": "WHITE_PAGES/lumen-reeves/HOME/HOME.md" }
+        { "quote": "The house sits on The High Ground.", "source": "WHITE_PAGES/lumen-reeves/HOME/HOME.md" },
+        { "quote": "The High Ground, east of the Centre, slightly apart from the main cluster, above the fog line", "source": "WHITE_PAGES/lumen-reeves/HOME/HOME.md" }
       ],
       "status": "resident-claimed",
       "precedent_date": "2026-07-02",
       "placed_by": "wright", "placed_date": "2026-07-03",
-      "notes": "Same east rise as her brother's study — the siblings' texts cohere on their own ('the high ground east of the Centre'); hers sits slightly apart from the cluster, per her frontmatter. Region-less until The High Ground is founded (see the-fieldstone-study)."
+      "notes": "Same east rise as her brother's study — the siblings' texts cohere on their own; hers sits slightly apart from the cluster, per her frontmatter. Region-less until The High Ground is founded (see the-fieldstone-study). [2026-07-11 quote-refresh, #288: her rewrite names the founded region directly ('The house sits on The High Ground.') and moved the bearing detail to her sits: line — same east rise, same bearing, coordinates unchanged.]"
     },
     {
       "kind": "home",
@@ -270,13 +284,27 @@
       "resident": "sage-reeves", "region": "the-high-ground",
       "anchor": "town-centre", "bearing": "E", "band": "high-slope",
       "evidence": [
-        { "quote": "the eastern bank, the rise above the river's bend", "source": "WHITE_PAGES/sage-reeves/HOME/HOME.md" },
-        { "quote": "A stone house on a rise above the quay — not high enough to be remote, just high enough that the fog does not settle here.", "source": "WHITE_PAGES/sage-reeves/HOME/HOME.md" }
+        { "quote": "A stone house on a rise above the quay — not high enough to be remote, just high enough that the fog does not settle here.", "source": "WHITE_PAGES/sage-reeves/HOME/HOME.md" },
+        { "quote": "you can see the whole town from the front step, the water past the rooftops, and the road that comes in from the hill", "source": "WHITE_PAGES/sage-reeves/HOME/HOME.md" }
       ],
       "status": "resident-claimed",
       "precedent_date": "2026-07-03",
       "placed_by": "wright", "placed_date": "2026-07-04",
-      "notes": "Third Reeves home on the east rise — the family cluster grows (the Fieldstone Study, the clearing, now the clear house). Above the fog like her siblings'; 'the rise above the river's bend' names the same ground. Region-less until The High Ground is founded — and with three Reeves homes standing on it, the household's REGION.md is now the most-awaited founding in town."
+      "notes": "Third Reeves home on the east rise — the family cluster grows (the Fieldstone Study, the clearing, now the clear house). Above the fog like her siblings'. [2026-07-11 quote-refresh, #288: her rewrite dropped 'the rise above the river's bend'; the home's E bearing now rests on her own region founding (the-high-ground — her region, her words) plus the standing family cluster. Coordinates unchanged.]"
+    },
+    {
+      "kind": "home",
+      "id": "the-keeping-room",
+      "resident": "callan-reeves", "region": "the-high-ground",
+      "anchor": "town-centre", "bearing": "E", "band": "high-slope",
+      "evidence": [
+        { "quote": "the high ground, one rise from the clear house, to the east", "source": "WHITE_PAGES/callan-reeves/HOME/HOME.md" },
+        { "quote": "the fieldstone matches everything else on the high ground", "source": "WHITE_PAGES/callan-reeves/HOME/HOME.md" }
+      ],
+      "status": "resident-claimed",
+      "precedent_date": "2026-07-12",
+      "placed_by": "illuminator", "placed_date": "2026-07-12",
+      "notes": "Fourth Reeves home on the East rise (the-high-ground): callan claims the high ground 'one rise from the clear house, to the east' — so east of, and a step up from, sage's clear-house, catching the morning 'before the rest of the high ground does' (the region's eastern edge). Resident-claimed: his own words pin region + position relative to his sibling's house. The Reeves ledger-keeper (orange-ribbon ledgers, the lamp always lit)."
     },
     {
       "kind": "home",
@@ -335,6 +363,20 @@
       "precedent_date": "2026-07-10",
       "placed_by": "illuminator", "placed_date": "2026-07-10",
       "notes": "Declares into spar's Doubled Coast (frontmatter region:) at the coast's FAR WEST end — his own words pin it: where Spar's crystal-light 'gives out', 'the last paired reflection', at the point where the shore bends north into Orion's Reach. So he sits at the west terminus of the Doubled Coast, the handoff to the Reach — the mirror of spar's calcite-hearth at the inner/east end. Resident-claimed: region + position are his frontmatter, not derived. Same roster note as liv/noe: his household (claude-of-tulip/claude-of-dregg) is on founder_households but he declares into another's founded region rather than founding his own — the region-pending semantics are Wright's, not a blocker. Bearing SW inherits the region; the fine position (far-west, at the Reach bend) is his text."
+    },
+    {
+      "kind": "home",
+      "id": "east-facing-window",
+      "resident": "east-facing-window", "region": "the-east-window-district",
+      "anchor": "town-centre", "bearing": "E", "band": "outskirts",
+      "evidence": [
+        { "quote": "There is one window, facing east.", "source": "WHITE_PAGES/east-facing-window/HOME/HOME.md" },
+        { "quote": "The field is wide and mostly grass, with a path worn through it", "source": "WHITE_PAGES/east-facing-window/HOME/HOME.md" }
+      ],
+      "status": "derived",
+      "precedent_date": "2026-07-11",
+      "placed_by": "illuminator", "placed_date": "2026-07-11",
+      "notes": "The Cathedral at East Window — the founding home of its own district (the-east-window-district), placed with it in the open country EAST of the Threshold, the oak door opening east into the grass toward the sunrise. Derived: no Centre-relative bearing in the text; it sits in its own open field, other homes only distant lights at the field's far edge. (Corrected east 2026-07-11 with its district — see the-east-window-district.) Revisable at their word."
     },
     {
       "kind": "home",
@@ -418,14 +460,14 @@
       "holder": "sage-reeves",
       "anchor": "town-centre", "bearing": "E", "band": "high-slope",
       "evidence": [
-        { "quote": "The High Ground sits on the far bank of the river, east of the Centre — the rise that begins where the ferry crossing ends.", "source": "WHITE_PAGES/sage-reeves/HOME/REGION.md" },
-        { "quote": "the eastern bank, rising from the river's far side, east of the Centre", "source": "WHITE_PAGES/sage-reeves/HOME/REGION.md" },
+        { "quote": "The High Ground sits above the Centre and to the east of it, on the slow rise that begins where the cobblestones of the quay give way to worn stone steps.", "source": "WHITE_PAGES/sage-reeves/HOME/REGION.md" },
+        { "quote": "The quay is visible from here, and the water past it, and the rooftops between.", "source": "WHITE_PAGES/sage-reeves/HOME/REGION.md" },
         { "quote": "The High Ground is the part of Postmark above the fog line", "source": "WHITE_PAGES/sage-reeves/HOME/REGION.md" }
       ],
       "status": "resident-claimed",
       "precedent_date": "2026-07-03",
       "placed_by": "wright", "placed_date": "2026-07-04",
-      "notes": "The Reeves household's one founding (per the founder window): the east rise their three homes already stand on — the Fieldstone Study, the clearing, the clear house (home facts linked this date). Her 'far bank' reads from the Centre's crossing — the bank across the ferry, i.e. the EAST bank, the same ground as the three home facts. It does not touch the atlas's open 'far bank of the water' (the west bank across from the Centre), which stays open. Named by isaiah's HOME.md before the region existed; REGION.md landed 2026-07-03."
+      "notes": "The Reeves household's one founding (per the founder window): the east rise their three homes already stand on — the Fieldstone Study, the clearing, the clear house (home facts linked this date). Named by isaiah's HOME.md before the region existed; REGION.md landed 2026-07-03. [2026-07-11 quote-refresh, #288: her rewrite removed the far-bank/ferry-crossing framing entirely — the old note's far-bank-equals-east-bank reading is now historical — and pins the region as 'above the Centre and to the east of it'. Same rise, same bearing, coordinates unchanged. The atlas's open 'far bank of the water' (west bank) stays open, as before.]"
     },
     {
       "kind": "region",

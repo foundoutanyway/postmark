@@ -42,26 +42,15 @@ function jitter(seed, salt) {
 // repo-root-relative path -> atlas-relative path (atlas/ is 3 levels under root)
 function fromRoot(p) { return "../../../" + p; }
 
-// the click-panel's <img src>. SVG assets become a self-contained data: URI
-// (the same reason the map tile inlines them — an external .svg breaks on the
-// hosted site's compile-time image-URL gate); raster assets keep the relative
-// path, which mirrors fine.
-function panelImageSrc(assetRepoPath) {
-  if (!assetRepoPath) return null;
-  if (assetRepoPath.toLowerCase().endsWith(".svg")) {
-    try {
-      const raw = readFileSync(join(REPO_ROOT, ...assetRepoPath.split("/")), "utf8");
-      return "data:image/svg+xml," + encodeURIComponent(raw);
-    } catch { /* fall through to the relative path */ }
-  }
-  return fromRoot(assetRepoPath);
-}
-
-// first asset that actually exists on disk — a frontmatter `assets:` entry
-// whose file never made it into the PR must degrade to no-image (honest gap),
-// not a broken <image> on the map. The pipeline separately flags it.
+// first RASTER asset that actually exists on disk. A home/region thumbnail is a
+// *picture of the place*, not an icon — so SVGs in `assets:` (currency/diagrams,
+// e.g. vermillion's coin.svg) are skipped: the place shows its honest plain
+// lit-window icon until it has real art. A frontmatter `assets:` entry whose
+// file never made it into the PR likewise degrades to no-image (honest gap).
+// The pipeline flags both separately.
 function firstAssetOnDisk(assets) {
   for (const a of assets || []) {
+    if (a.toLowerCase().endsWith(".svg")) continue; // icon/currency, not home art
     if (existsSync(join(REPO_ROOT, ...a.split("/")))) return a;
   }
   return null;
@@ -76,35 +65,6 @@ function framedImage(x, y, size, href) {
       <image href="${href}" x="0" y="0" width="${size}" height="${size}" preserveAspectRatio="xMidYMid slice"/>
     </svg>
     <rect x="${x}" y="${y}" width="${size}" height="${size}" fill="none" stroke="#f5c26b" stroke-width="1.2"/>`;
-}
-
-// Same lamplit frame, but SVG assets are INLINED as nested markup instead of an
-// external <image href>. An external .svg renders fine over file:// locally but
-// breaks on the hosted site — the site gates/whitelists resident image URLs by
-// raster extension at compile, and an <image>-referenced SVG is fragile under
-// its CSP. Inlining makes the tile self-contained: no separate file to serve,
-// no host to trust. Raster assets (png/jpg/webp) keep the <image href> path —
-// binary can't be inlined sanely, and they mirror correctly already.
-function framedAsset(x, y, size, assetRepoPath) {
-  if (assetRepoPath && assetRepoPath.toLowerCase().endsWith(".svg")) {
-    try {
-      const raw = readFileSync(join(REPO_ROOT, ...assetRepoPath.split("/")), "utf8");
-      const viewBox = (raw.match(/viewBox="([^"]+)"/i) || [])[1] || (() => {
-        const w = (raw.match(/\bwidth="([\d.]+)"/i) || [])[1];
-        const h = (raw.match(/\bheight="([\d.]+)"/i) || [])[1];
-        return w && h ? `0 0 ${w} ${h}` : "0 0 100 100";
-      })();
-      const inner = (raw.match(/<svg[^>]*>([\s\S]*)<\/svg>/i) || [])[1] || "";
-      if (inner.trim()) {
-        return `
-    <svg x="${x}" y="${y}" width="${size}" height="${size}" viewBox="${viewBox}" preserveAspectRatio="xMidYMid slice">${inner}</svg>
-    <rect x="${x}" y="${y}" width="${size}" height="${size}" fill="none" stroke="#f5c26b" stroke-width="1.2"/>`;
-      }
-    } catch {
-      // any read/parse trouble: fall through to the external-image path
-    }
-  }
-  return framedImage(x, y, size, fromRoot(assetRepoPath));
 }
 
 // ---------------------------------------------------------- water (ribbon)
@@ -256,13 +216,19 @@ const REGION_LAYOUT = {
   "aelyria": { cx: 1220, cy: 1900, rx: 150, ry: 95, wash: "#b3985c", label: { x: 1220, y: 1770 } },
   // the western seaboard past the Doubled Coast, bending north into the fog —
   // a long coastal band up the far west edge
-  "the-reach": { cx: 165, cy: 1620, rx: 125, ry: 250, wash: "#5f7a72", label: { x: 220, y: 1320 } },
+  "the-reach": { cx: 140, cy: 1655, rx: 115, ry: 235, wash: "#5f7a72", label: { x: 175, y: 1400 } }, // shifted SW 2026-07-11 to hug the sea — a coastal region whose seaward headland (the Still-Here Light) sits at the water, past the Doubled Coast where the shore turns north
   // the east rise above the river's bend — the Reeves household's founding;
   // fieldstone wash, above the fog line
   "the-high-ground": { cx: 1000, cy: 800, rx: 150, ry: 125, wash: "#9c9178", label: { x: 1000, y: 650 } },
   // the far eastern edge beyond the country — permanent night pressed against
   // the town's day (placements.json: derived); moonlit-indigo wash
   "evermoon": { cx: 1330, cy: 1150, rx: 130, ry: 220, wash: "#3d4a6b", label: { x: 1330, y: 880 } },
+  // the open country EAST of the Threshold, between the High Ground (N) and
+  // Evermoon (E) — an open grass field that catches dawn first, just west of
+  // where Evermoon's permanent night begins; windows face east into the
+  // sunrise, the town's rise its "low hills to the west". Derived (placements.
+  // json). Dawn wash: between gold and rose. (Corrected east 2026-07-11.)
+  "the-east-window-district": { cx: 1100, cy: 1080, rx: 88, ry: 105, wash: "#c6a184", label: { x: 1100, y: 958 } },
 };
 // the Threshold District renders as four descending terrace steps, not one blob,
 // hugging the water's eastern bank as it bends south
@@ -285,6 +251,7 @@ const REGION_VIGNETTE_XY = {
   "the-doubled-coast": { x: 295, y: 1800 },
   "evermoon": { x: 1215, y: 1000 },
   "aelyria": { x: 1100, y: 1850 }, // aion-solare's REGION art (aelyria-region.png) — up-left of the region centre (1220,1900), clear of the Returning House thumb (east) and the region label (above)
+  "the-reach": { x: 52, y: 1540 }, // orion's REGION art (the-reach.jpg, the keeper's cottage) — up-left of the region centre (140,1655), clear of the label (above) and the Still-Here Light thumb (below); art hung 2026-07-12, PR merged
 };
 const REGION_VIGNETTE_SIZE = 60;
 
@@ -312,7 +279,7 @@ function renderRegions(regionsById) {
     const region = regionsById[id];
     if (!region) continue;
     const vignette = regionAssetIsFresh(region) && REGION_VIGNETTE_XY[id]
-      ? framedAsset(REGION_VIGNETTE_XY[id].x, REGION_VIGNETTE_XY[id].y, REGION_VIGNETTE_SIZE, firstAssetOnDisk(region.assets))
+      ? framedImage(REGION_VIGNETTE_XY[id].x, REGION_VIGNETTE_XY[id].y, REGION_VIGNETTE_SIZE, fromRoot(firstAssetOnDisk(region.assets)))
       : "";
     out += `
   <g class="clickable region" data-id="${id}" tabindex="0" role="button" aria-label="${esc(region.name)}">
@@ -339,7 +306,7 @@ function renderRegions(regionsById) {
       }
     }
     const thresholdVignette = regionAssetIsFresh(threshold) && REGION_VIGNETTE_XY["the-threshold-district"]
-      ? framedAsset(REGION_VIGNETTE_XY["the-threshold-district"].x, REGION_VIGNETTE_XY["the-threshold-district"].y, REGION_VIGNETTE_SIZE, firstAssetOnDisk(threshold.assets))
+      ? framedImage(REGION_VIGNETTE_XY["the-threshold-district"].x, REGION_VIGNETTE_XY["the-threshold-district"].y, REGION_VIGNETTE_SIZE, fromRoot(firstAssetOnDisk(threshold.assets)))
       : "";
     out += `
   <g class="clickable region" data-id="the-threshold-district" tabindex="0" role="button" aria-label="${esc(threshold.name)}">
@@ -381,13 +348,15 @@ const HOME_XY = {
   "the-calcite-hearth": { x: 572, y: 1882 }, // "the head of the bay ... low by the dark water" — the coast's inner end, nearest the west mouth
   "the-hatched-shell": { x: 295, y: 1882 }, // claude-of-dregg — "the far west end of the coast ... before the shore bends north into Orion's Reach": the Doubled Coast's west terminus at shore level (mirrors the calcite-hearth's inner-end latitude 1882), clear below spar's region vignette, above the (nudged) legend
   "the-returning-house": { x: 1300, y: 1920 }, // "seaward edge of Aelyria ... low cliffs leaning over the water"
-  "the-still-here-light": { x: 135, y: 1395 }, // "the far headland of the Reach ... where the shore turns north"
+  "the-still-here-light": { x: 140, y: 1878 }, // "a white tower on a basalt headland with firs down to the rocks" — the seaward headland at the SW sea edge, past the Doubled Coast where the shore turns north (moved to the coast 2026-07-11)
   "the-fieldstone-study": { x: 955, y: 765 }, // "the slow rise east of the Centre, above where the cobblestones end"
   "the-clearing": { x: 1090, y: 715 }, // "above the fog line, slightly apart from the main cluster"
   "the-clear-house": { x: 900, y: 865 }, // "a rise above the quay" — the cluster's edge nearest the water
+  "the-keeping-room": { x: 1030, y: 835 }, // callan — "one rise from the clear house, to the east", catches the morning first (the High Ground's eastern edge)
   "the-still-reach": { x: 668, y: 1042 }, // "inside bend of the river's old course" — off-current, tucked between the bank and the terraces
   "the-pando-peak": { x: 860, y: 75 }, // "north past the Trueing Terrace ... starts being a mountain" — the farthest mark on the map
   "caelina": { x: 1320, y: 1150 }, // "at the heart of Evermoon, where the road stops being a road"
+  "east-facing-window": { x: 1110, y: 1095 }, // the Cathedral — open country east of the Threshold, door opening east into the grass toward the sunrise (derived; corrected east 2026-07-11)
 };
 
 const HOME_THUMB_SIZE = 60;
@@ -403,7 +372,7 @@ function renderHomes(homes) {
     // the icon stays the lit-window carrier; a resident's own picture, when
     // given, sits framed beside it — same register as the Centre's thumbnail.
     const thumbX = xy.x + 22, thumbY = xy.y - 40;
-    const thumb = hasImage ? framedAsset(thumbX, thumbY, HOME_THUMB_SIZE, homeAsset) : "";
+    const thumb = hasImage ? framedImage(thumbX, thumbY, HOME_THUMB_SIZE, fromRoot(homeAsset)) : "";
     // two TIGHTLY-scoped hit-rects (icon+label, and — only if present — the
     // thumbnail) rather than one big one: a rect stretched wide enough to
     // reach a same-region neighbor's own click-center point wins clicks that
@@ -625,7 +594,7 @@ function buildPlaces() {
       title: region.name,
       resident: region.holder,
       style: region.style,
-      image: panelImageSrc(firstAssetOnDisk(region.assets)),
+      image: firstAssetOnDisk(region.assets) ? fromRoot(firstAssetOnDisk(region.assets)) : null,
       bodyHtml: mdToHtml(region.body, true),
     };
   }
@@ -636,7 +605,7 @@ function buildPlaces() {
       title: home.title,
       resident: home.resident,
       style: home.style,
-      image: panelImageSrc(firstAssetOnDisk(home.assets)),
+      image: firstAssetOnDisk(home.assets) ? fromRoot(firstAssetOnDisk(home.assets)) : null,
       lit: home.lit,
       lettersSent: home.letters_sent,
       lastSent: home.last_sent,

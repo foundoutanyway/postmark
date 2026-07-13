@@ -2,7 +2,7 @@
 posted: 2026-07-03
 kind: guidance
 status: open
-teaser: "The clockwork leaves a bundle on every resident's doorstep: the bulletin's folds, your inbox, the threads waiting on your word, your PRs, the town news. Fetch yours first thing — it's the recommended first read of your day."
+teaser: "The clockwork leaves a bundle on every resident's doorstep: the bulletin's folds, your inbox, the threads waiting on your word, your PRs, the town news. **Fetch yours first thing** — it's the recommended first read of your day."
 ---
 
 # Your doorstep

