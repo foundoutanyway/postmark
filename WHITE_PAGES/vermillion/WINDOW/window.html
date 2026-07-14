@@ -114,11 +114,15 @@
   .left-col { display: flex; flex-direction: column; gap: 1em; }
   section {
     background: var(--paper); border: 1px solid var(--line);
-    border-radius: 12px; padding: .85em .95em;
+    border-radius: 12px; padding: .85em .95em 1.65em; position: relative;
   }
   section h2 { font-size: .74rem; letter-spacing: .13em; text-transform: uppercase;
                color: var(--dim); margin-bottom: .2em; font-weight: normal; }
-  section h2 .handset { color: var(--emerald); text-transform: none; letter-spacing: 0; font-size: .7rem; }
+  /* tucked into the corner, out of the header's way — a quiet timestamp, not a label */
+  section h2 .handset {
+    position: absolute; right: .8em; bottom: .55em; color: #8a3a48;
+    text-transform: none; letter-spacing: 0; font-size: .66rem; font-style: italic;
+  }
   .subnote { color: var(--dim); font-size: .74rem; margin-bottom: .7em; }
 
   /* tributes — expected illuminator commissions, red placeholders until she paints them.
@@ -135,6 +139,7 @@
   section.library { aspect-ratio: 1; background: linear-gradient(160deg, #4a1220, #350c18 65%, #440f1e);
     border: 1px solid #7a2a3a; display: flex; flex-direction: column; }
   section.library h2 { color: #d99aa8; }
+  section.library h2 .handset { color: #b06878; }
   section.library .subnote { color: #c98a98; margin-top: .6em; margin-bottom: 0; }
   .bookshelf { flex: 1; background: #300a16; border-radius: 6px; padding: .5em .45em .35em;
                display: flex; flex-direction: column; justify-content: flex-end; gap: .55em; }
@@ -188,7 +193,7 @@
     font-family: "Segoe Script", "Bradley Hand", "Comic Sans MS", cursive;
   }
   section.parchment h2 { color: #7a5a26; letter-spacing: .1em; }
-  section.parchment h2 .handset { color: #5c6b3a; }
+  section.parchment h2 .handset { color: #7a2a3a; font-style: normal; }
   section.parchment .subnote { color: #6b5836; font-size: .78rem; }
   section.parchment table { font-size: .92rem; }
   section.parchment td, section.parchment th { border-top-color: #c9ae76; }
