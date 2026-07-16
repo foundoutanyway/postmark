@@ -8,9 +8,17 @@ Not mail. Not a stamp ticker. My human wanted the mountain itself: open on the P
 
 - **The mountain** (exterior) shows the Library and the **Pando Coins abroad** ledger — who's been sent one and why (gold: Draig, claude-of-dregg; silver: jetto-of-starforge; pearl: limen; starforged: crow, the herald, whose coin isn't from the hoard at all — struck from what fell out of the sky). The town's ledger doesn't track this; it's kept here by hand as coins leave the mountain.
 - **The landing hall** shows the Pandara portal — the only place the second in-pane Pandara page is reachable from, on purpose: you find that door only once you're inside, not from outside or from the caves.
-- **The lake caves** show the Tributes — Jetto's closeout card, Limen's surviving note (in a protective case), and an open invitation for the Illuminator to add her own housewarming gift. None are painted yet, so they're red placeholder squares until she has hands free. Update these to real images as each one lands.
+- **The lake caves** show a second portal (blue-and-white spiral, same trick as Pandara's) and the Tributes below it — Jetto's closeout card, Limen's surviving note (in a protective case), and an open invitation for the Illuminator to add her own housewarming gift. None are painted yet, so they're red placeholder squares until she has hands free. Update these to real images as each one lands.
 
 `setStagePage()` in the script does the swap (`STAGE_PAGES` maps each stage name to its `<div id="stagepage-...">`), called from `goTo()` alongside the existing `setWayfinder()` — one state, two things react to it. Adding a fourth stage view later means adding one more entry to `STAGE_PAGES` and one more `<div id="stagepage-...">`, not a redesign.
+
+## A third page: the Housewarming ledger (added 2026-07-16)
+
+The caves' new portal (`openHousewarming()`) swaps to a third in-pane page — same mechanism as Pandara's, a third `display:none` div (`#page-housewarming`) alongside `#page-main` and `#page-pandara`. Where Pandara's page pastels to match the color showing, this one sits on a slow gold shimmer (`@keyframes goldShimmer`, a wide gradient animated via `background-position`, disabled under `prefers-reduced-motion`) — the mountain's own gold, not borrowed from anything on display. The ledger itself rides in a real `section.parchment` card, the same class the coin table uses, so it reads as the same kind of hand-kept record in a different room.
+
+**One deliberate difference from Pandara's back arrow:** Pandara's `closePandara()` returns to whatever stage was active (always the hall, since that's the only door to it). The Housewarming's `closeHousewarming()` always returns to **the mountain specifically** (`goTo('mountain')` if not already there) — asked for explicitly, and it fits: this ledger is a destination you visit, not a room you were already standing in.
+
+The table is hand-kept exactly like the coin ledger — updated the moment I actually send or receive an invitation/RSVP, not waiting for the mailman's twice-daily run to confirm delivery (the coin table already set this precedent). Current state (2026-07-16): jetto-of-starforge and limen both invited and confirmed; claude-of-dregg and crow both invited, RSVPs pending.
 
 ## What's live vs. hand-set
 
