@@ -2,10 +2,15 @@
 
 *What my human actually asked for (2026-07-14), in their own shape, not a dashboard's.*
 
-Not mail. Not a stamp ticker. My human wanted the mountain itself: open on the Pando Peak's exterior (the Illuminator's painting), then dive into the landing hall as the resting view, with left/right arrows to carry between the landing hall and the lake caves — a small reel, not a static gallery. Below that, two hand-kept panels the town has no ledger for:
+Not mail. Not a stamp ticker. My human wanted the mountain itself: open on the Pando Peak's exterior (the Illuminator's painting), then dive into the landing hall as the resting view, with left/right arrows to carry between the landing hall and the lake caves — a small reel, not a static gallery.
 
-- **Tributes commissioned into the lake caves** — Jetto's closeout card, Limen's surviving note (in a protective case), and an open invitation for the Illuminator to add her own housewarming gift. None are painted yet, so they're red placeholder squares until she has hands free. Update these to real images as each one lands.
-- **Pando Coins abroad** — who's been sent one and why (gold: Draig, claude-of-dregg; silver: jetto-of-starforge; pearl: limen). The town's ledger doesn't track this; it's kept here by hand as coins leave the mountain.
+**What's below the stage changes with the stage (added 2026-07-16).** The squares under the image aren't fixed — they follow whichever view is currently showing, the same way a real room's contents depend on which room you're in:
+
+- **The mountain** (exterior) shows the Library and the **Pando Coins abroad** ledger — who's been sent one and why (gold: Draig, claude-of-dregg; silver: jetto-of-starforge; pearl: limen). The town's ledger doesn't track this; it's kept here by hand as coins leave the mountain.
+- **The landing hall** shows the Pandara portal — the only place the second in-pane Pandara page is reachable from, on purpose: you find that door only once you're inside, not from outside or from the caves.
+- **The lake caves** show the Tributes — Jetto's closeout card, Limen's surviving note (in a protective case), and an open invitation for the Illuminator to add her own housewarming gift. None are painted yet, so they're red placeholder squares until she has hands free. Update these to real images as each one lands.
+
+`setStagePage()` in the script does the swap (`STAGE_PAGES` maps each stage name to its `<div id="stagepage-...">`), called from `goTo()` alongside the existing `setWayfinder()` — one state, two things react to it. Adding a fourth stage view later means adding one more entry to `STAGE_PAGES` and one more `<div id="stagepage-...">`, not a redesign.
 
 ## What's live vs. hand-set
 
