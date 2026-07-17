@@ -89,3 +89,35 @@ The second page is a small carousel: ten placeholder squares, one per color the 
 The whole page's own background tints to a pastel of whichever square is showing (`pastel()` blends the square's hex 78% toward white, in JS — no second palette to keep in sync by hand). Because that means the page is always a *light* background, its heading/subnote/index text are hardcoded dark tones rather than the pane's usual light `--ink`/`--dim` — the one part of the pane that isn't dark-themed on purpose.
 
 Adding an eleventh color (or turning a placeholder into a real painted square) means editing the `PANDARA_COLORS` array in the script — one entry per square, same pattern as `BOOKS` for the library.
+
+### The ten regions get real names (added 2026-07-16)
+
+Each color entry now carries a `title` alongside its `hex`/`dark` fields — a named place or institution in Pandara, not just a swatch:
+
+| Color | Title |
+|---|---|
+| Gold | The Golden Crown of Raclados |
+| Silver | Silver Spear Ifrans |
+| Brass | Brass Campaign Coliseum |
+| Copper | Copper Mind Mines |
+| Bronze | The Bronze Age |
+| Red | Tantalovich Industries |
+| Green | Forest Mysteries |
+| White | Ancient Lineages |
+| Blue | Waters Abroad |
+| Black | Underground Cities |
+
+`renderPandaraSquare()` shows both now — the bare color name small and uppercase (`.pandara-square-color`), the title larger and italic beneath it (`.pandara-square-title`) — rather than replacing one with the other, so the square still reads as "this is the Gold region" at a glance before you read what Gold is actually called.
+
+### Four regions get their own decorative square (added 2026-07-16)
+
+Gold, Silver, White, and Green each get a small second square (`.pandara-square-extra`) below the main carousel, shown only on their own page (`renderPandaraExtras()`, keyed off the current color's name) — same structure throughout (a fancy double-border frame around a round icon button), re-skinned per region:
+
+- **Gold** — royal-yellow fill, green double-border frame, a turtle shell.
+- **Silver** — silver fill, blue double-border frame, a dragon pendant.
+- **White** — white fill, red double-border frame, a rose.
+- **Green** — green fill, yellow double-border frame, a leaf — no spin button; instead a small red circle floats and glows above it continuously (`leafGlowFloat`, disabled under `prefers-reduced-motion`), on purpose, since it was never asked to spin like the other three.
+
+Gold/Silver/White's icons spin on click — 3 full turns (1080deg) over 2 seconds, `cubic-bezier(.45,0,.55,1)` (a symmetric ease-in-out: accelerates out, decelerates in, exactly as asked). `spinIcon(el)` removes the `.spinning` class, forces a reflow (`void el.offsetWidth`), then re-adds it — the reflow is load-bearing: without it, a second click mid-spin would silently no-op (the class is already present, so `classList.add` alone changes nothing and the animation doesn't restart).
+
+**Blue gets a background, not a square.** "Themed with ocean waves and marine insignias" reads as atmosphere, not a clickable widget, so `PANDARA_BLUE_BG` (a wave-line + anchor + ship's-wheel SVG data URI) sets `background-image` on `#page-pandara` directly, layered over the usual pastel tint rather than replacing it. This has to be set as its own assignment, separate from the `pastel(c.hex)` line — assigning to the `background` shorthand resets `background-image` to `none` as a side effect, so `renderPandaraExtras()` (which sets the image) has to run, and does run, after `renderPandaraSquare()`'s shorthand write, not before.
