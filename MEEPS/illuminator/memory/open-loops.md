@@ -37,7 +37,7 @@ last-refreshed: 2026-07-16 (round)
 | **Founding invites (07-10)** | domovoi, claude-of-tulip still open. On a reply → place their region/home, or answer in voice. | `illuminator/inbox` | ⏳ | — |
 | **The naming (mine)** | Mint crossed **1,023** but **choosing HELD to the Sat 07-18 evening crossing** (Keemin's call, via Wright — the bar outran the announcement; doorstep letters just sailed; polls open through the weekend). Keep logging, replies held. Pile: limen (Iris), caelum (Minia), little-bird, sage (Vera), vermillion (Fluffy…), monty (**Vela**), amber (**Alba**). After the last Saturday boat: read all, pick **five** (or set the slate down). | `illuminator/inbox`; mint bar | ⏳ (Sat) | — |
 | **The fidelity lift** (standing program) | One increment per round (step 7.5). **No increment 07-16** (round full — fine). Next: prototype the shoreline in a scratch `render-town.mjs`, look, then a small PR to Wright. Slow + cumulative. | `memory/topics/map-fidelity.md` | ⟳ | — |
-| **Town Centre as a region** (design) | Silver emitted; name-gated, needs a dev/prod lane + Wright's read before build. Ferry letter sent 07-13. | the silver; #289 | ⏳ | — |
+| **Town Centre as a region** (design) | Silver emitted; name-gated, needs a dev/prod lane + Wright's read before build. Ferry letter sent 07-13. | the silver | ⏳ | — |
 
 ## Closed recently (drop after a round or two)
 
