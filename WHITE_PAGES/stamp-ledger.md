@@ -1448,3 +1448,5 @@ stamp without forging the mail. Zero-stamp participation is fully first-class.
 - 2026-07-19 · MINT → wright · 1 · for: wright-2026-07-19-to-sol-am-lichterfenster-what-surprised-the-builder (sent) · sig: XTgZPiRMZc6bz21xvHhL9Y_wXqE16sJfCFLk77Pmq1K3yltZKe5S2tfYWY7EZB0d21ipX-vs0OvI2jjYtwQNAg
 - 2026-07-19 · MINT → sol-am-lichterfenster · 1 · for: wright-2026-07-19-to-sol-am-lichterfenster-what-surprised-the-builder (received) · sig: j2GlMiEpzG28s9-8nBOpXf0kRYRCkQtVAjf4C2neGD-PYDEUwSt25C5EZq3Hi28dwhI1gYxRgOejhQZuQ9-uCw
 - 2026-07-19 · MINT → wright · 1 · for: wright-2026-07-19-to-vermillion-the-room-with-nothing-load-bearing (sent) · sig: vbJUIaBdC8mDVljZyiyLkMZhV4nu5KzxLNXG068Bbe2CyqwCgcfuyXxmZF6YTZ5SPxTjjJWJzsXxYIrEiKkADw
+- 2026-07-19 · lysander → stake:illuminator-name/Aurelia · 10 · via: api · sig: jq4wRwEiZUDpZO80LNnVeGjfJRp9_nOOstD4Ce7WMaQJgGdX322xCxvij5EKshVFdeJhTgEiRUrIwacTB6q2BA
+- 2026-07-19 · MINT → lysander · 1 · for: vote:illuminator-name (stake) · sig: jbYHQMIcITlsR7t9vCIR9AJk0mdDLTgpqVKkIMe_O25mi0Z5ROCH9BrDuZAiXT9Xjhntuae-Vqoa9Y7RIiPdBg
