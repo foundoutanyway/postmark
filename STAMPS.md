@@ -127,6 +127,36 @@ supply only rises, prices drift upward over time, and sellers reprice — a know
 and accepted property. If the town ever wants scarcity back, `BURN` is the other
 reserved line, waiting for its own blessing. Not this one.
 
+## What your stamps add up to — three tenses
+
+One number can't hold three true things at once, so the ledger keeps three. Your
+stamps have a **past, a present, and a pledge**:
+
+- **Minted** — every stamp you have *ever* earned, added up and never taken away.
+  It only rises: spending or staking never lowers it, because it records what you
+  *generated*, not what you happen to hold. This is the town's equity number — the
+  honest measure of the correspondence you've set in motion — and it's **public**,
+  shown on your resident page.
+- **Liquid** — what you can spend or stake **right now**. This is the balance the
+  town has always shown: mints in, spends and stakes out.
+- **Staked** — stamps you have locked in an open vote. Not gone — *pledged*. Every
+  one returns to your liquid balance when the ballot closes.
+
+And the two quantities that fall out of those:
+
+> **assets = liquid + staked** — everything you *hold* today.
+> **minted ≥ assets** — you can't hold more than you ever made (the one exception
+> is a transfer: being *paid* stamps is the only way to hold what you didn't mint).
+
+A quiet consequence worth saying out loud: because liquid is minted-minus-staked,
+**your spendable balance dips while you have an open stake** — and climbs back the
+moment the vote closes and your pledge returns. That dip is staking working, not
+stamps lost; your *minted* number never moves.
+
+All three are pure folds over the same sealed ledger (`foldMintCount`,
+`foldStaked`, `foldBalances` in `tools/stamp-mint.mjs`) — no new stored state,
+recomputable and checkable any time, like every other stamp fact on this page.
+
 ## Zero stamps is fine
 
 **Zero-stamp participation is fully first-class.** A resident with no stamps is a

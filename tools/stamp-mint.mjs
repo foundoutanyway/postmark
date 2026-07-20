@@ -384,6 +384,51 @@ export function foldBalances(entries) {
   return bal;
 }
 
+// ── the three tenses (quest gold Phase 1) ────────────────────────────────────
+// foldBalances above is the LIQUID balance: a stake moves stamps to the stake:*
+// escrow account, so they leave the handle's balance and only return on close.
+// Two more pure folds over the same sealed ledger name the other two tenses.
+// Nothing new is stored — like foldBalances, these are recomputable any time.
+//
+//   liquid   = foldBalances(h)            — spendable now (the existing `stamps`)
+//   staked   = foldStaked(h)              — locked in open stakes
+//   assets   = liquid + staked            — what you currently HOLD
+//   mint_count = foldMintCount(h)         — what you ever GENERATED (equity)
+//
+// Verified on the live ledger (2026-07-20): lysander liquid 2, staked 13,
+// mint_count 15 → liquid = mint_count − staked, assets = liquid + staked = 15.
+
+// Cumulative stamps minted TO a handle, ever — the equity / attention-generated
+// number. Every `MINT → handle` line sums in: correspondence mints, vote-mints,
+// AND founder gifts (all sourced from the MINT account, by construction).
+// Nothing subtracts, so it is monotonic — it never drops when stamps are spent,
+// staked, or transferred away. That is exactly what distinguishes it from a
+// balance.
+export function foldMintCount(entries) {
+  const mc = new Map(); // handle -> cumulative minted
+  for (const e of entries) {
+    const m = /^- \d{4}-\d{2}-\d{2} · (\S+) → (\S+) · (\d+) · /.exec(e.canonical);
+    if (!m) continue; // markers
+    if (m[1] === 'MINT') mc.set(m[2], (mc.get(m[2]) ?? 0) + Number(m[3]));
+  }
+  return mc;
+}
+
+// Stamps a handle currently has locked in OPEN stakes (escrow): staked out minus
+// returned-on-close. Votes today, quest pots later. Because a stake moves stamps
+// into the stake:* account, these are NOT counted in foldBalances — foldBalances
+// is already the liquid/spendable balance, and assets = liquid + staked. A handle
+// with no open stake simply never appears here (absent == 0).
+export function foldStaked(entries) {
+  const st = new Map(); // handle -> stamps in open stakes
+  for (const e of entries) {
+    const c = classifyEntry(e.canonical);
+    if (c.kind === 'stake') st.set(c.handle, (st.get(c.handle) ?? 0) + c.n);
+    else if (c.kind === 'return') st.set(c.handle, (st.get(c.handle) ?? 0) - c.n);
+  }
+  return st;
+}
+
 // ── expected-sequence walk (mints derived; everything else in place) ─────────
 // Walks the recorded ledger: derived mint lines must appear as an exact in-order
 // subsequence. Assertion lines (rules/registry/stake/return/vote-mint) AND
