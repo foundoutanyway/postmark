@@ -320,7 +320,19 @@ function washBlob(cx, cy, rx, ry, seed, points = 12) {
 // entirely open ("the far bank"), and the map must not visually claim it.
 const REGION_LAYOUT = {
   "the-trueing-terrace": { cx: 670, cy: 280, rx: 175, ry: 150, wash: "#7d8f86", label: { x: 670, y: 150 } },
-  "the-lanternseed-gardens": { cx: 670, cy: 560, rx: 175, ry: 145, wash: "#7a9c5a", label: { x: 670, y: 430 } },
+  // shifted EAST +80 (2026-07-21, Rei's word): frees the near bank for the Town
+  // Centre's east lobe, which the Gardens previously overlapped down to y705.
+  // cy/rx/ry unchanged — this is a translation, not a resize. Everything coupled
+  // to the zone moved the same +80: the label, the vignette, and rei's own
+  // Lanternstep House (which must not be left standing on its region's west lip).
+  // LABEL, though, is NOT a straight +80: at (750,430) it landed directly under
+  // the Joinery's resident line with ~5px of air — re-creating the exact crowd
+  // the Joinery had once been nudged UP to escape. The label moved down instead
+  // (735,470), which buys ~70px of vertical clearance from ethan's house and
+  // still clears the vignette (870,460) horizontally. Moving the label was the
+  // right lever: I caused the crowd by shifting the region, so the fix belongs
+  // on my side of it, not on a resident's house that was already placed once.
+  "the-lanternseed-gardens": { cx: 750, cy: 560, rx: 175, ry: 145, wash: "#7a9c5a", label: { x: 735, y: 470 } },
   // the east bank of the river's last run, down to the delta head
   "the-long-run": { cx: 1040, cy: 1500, rx: 150, ry: 150, wash: "#a8895a", label: { x: 1040, y: 1362 } },
   // the first west-bank settlement — the forest the river comes out of
@@ -358,12 +370,33 @@ const THRESHOLD_TERRACES = [
 ];
 const THRESHOLD_WASH = "#6b7a8c";
 
+// the Town Centre — TWO LOBES, one per bank, with the water between them left
+// deliberately UNWASHED. A single ellipse can't say this honestly: narrow, it
+// reaches only one bank; wide enough to reach both, it swallows the river as
+// region-interior and over-claims the far bank, which the atlas holds open as
+// invitation ground. Two lobes say the true thing the charter says — "the quay
+// and the pigeonholes on the near side, the landing and the lantern-posts on
+// the far" — and the gap between them IS the crossing. The boat stitches it;
+// the wash doesn't have to, and shouldn't, because the water is the one part
+// of the Centre nobody stands on. Same multi-lobe machinery as the Threshold's
+// terraces, so this needs no new shape primitive.
+const TOWN_CENTRE_LOBES = [
+  // the near (east) bank: the quay, the mail-house row, the Looking Room (595,700).
+  // Kept above the Threshold's upper terrace (y795+) and west of the shifted Gardens.
+  { id: "near", cx: 608, cy: 730, rx: 74, ry: 72 },
+  // the far (west) bank: the landing and the lantern-posts ONLY — modest on
+  // purpose. It stops at x~310, well short of the "far bank — open ground,
+  // unclaimed" legend (80,620) and clear of the pigeonhole card (y830+).
+  { id: "far", cx: 372, cy: 755, rx: 62, ry: 70 },
+];
+const TOWN_CENTRE_WASH = "#c8a86a"; // lamplit amber — the Centre's own quay-stone register
+
 // hand-placed anchors for a region's own vignette, checked against the
 // region's actual town.json `assets` before rendering — presence is
 // data-driven, position is authored like every other element on this map.
 const REGION_VIGNETTE_XY = {
   "the-trueing-terrace": { x: 755, y: 330 },
-  "the-lanternseed-gardens": { x: 790, y: 460 },
+  "the-lanternseed-gardens": { x: 870, y: 460 }, // travelled +80 east with the Gardens (2026-07-21)
   "the-long-run": { x: 952, y: 1435 }, // stepped east off the canal with its buildings (survey, 2026-07-17)
   "the-threshold-district": { x: 640, y: 810 },
   "the-doubled-coast": { x: 295, y: 1800 },
@@ -435,6 +468,30 @@ function renderRegions(regionsById) {
     ${thresholdVignette}
   </g>`;
   }
+  // the Town Centre — the shared heart, drawn as two lobes with the crossing
+  // open between them. NO name label here, on purpose: the Centre's own hub
+  // already prints "The Town Centre" at the crossing stone just below, and a
+  // second one would only be the map saying it twice. What the region can add
+  // that the hub can't is the doctrine — so the one line it prints is the
+  // doctrine, and the credit reads "tended" rather than "founded by", because
+  // for this one region that distinction is the whole point.
+  const centreRegion = regionsById["the-town-centre"];
+  if (centreRegion) {
+    let lobes = "";
+    for (const l of TOWN_CENTRE_LOBES) {
+      lobes += regionWashLayer("centre-" + l.id, l.cx, l.cy, l.rx, l.ry, TOWN_CENTRE_WASH);
+    }
+    const centreVignette = regionAssetIsFresh(centreRegion) && REGION_VIGNETTE_XY["the-town-centre"]
+      ? framedImage(REGION_VIGNETTE_XY["the-town-centre"].x, REGION_VIGNETTE_XY["the-town-centre"].y, REGION_VIGNETTE_SIZE, fromRoot(firstAssetOnDisk(centreRegion.assets)))
+      : "";
+    out += `
+  <g class="clickable region" data-id="the-town-centre" tabindex="0" role="button" aria-label="${esc(centreRegion.name)}">
+    <rect x="325" y="622" width="260" height="38" fill="transparent" pointer-events="all"/>
+    ${lobes}
+    <text x="455" y="642" class="region-founder" text-anchor="middle">tended, never owned — ${esc(centreRegion.holder)}</text>
+    ${centreVignette}
+  </g>`;
+  }
   return out;
 }
 
@@ -458,7 +515,8 @@ function drawHouse(cx, cy, lit) {
 const HOME_XY = {
   "the-trueing-house": { x: 600, y: 240 },
   "the-joinery": { x: 725, y: 352 }, // ethan-thorne — "the lower edge of the Trueing Terrace, where the makers' steps bend toward the Centre and the quay lights remain visible": lower Terrace below wright's house, facing the Centre; nudged up from the very edge (was 700,405) so its label clears rei's Lanternseed Gardens region label (670,430)
-  "the-lanternstep-house": { x: 620, y: 600 },
+  "the-looking-room": { x: 595, y: 700 }, // the illumination office's own home — the near bank (channel spans ~x398-518 here), set back ~75px from the waterline and NE of the Centre (485,760), one floor up behind the mail-house row. Deliberately NOT on the crossing stone (the office keeps the Centre "tended, never owned") and deliberately NOT on the far bank (held-open invitation ground). Clear of the Lanternseed wash (~x625 at this latitude) and the Threshold marker (640,810).
+  "the-lanternstep-house": { x: 700, y: 600 }, // rei — moved +80 east with the Lanternseed Gardens (2026-07-21). Her fact anchors her N of the Centre on the lower-slope with no fixed x, so translating her with her own region preserves the relation her text states; leaving her at 620 would have stranded her on the Gardens' new western lip.
   "the-threshold-house": { x: 720, y: 858 },
   "the-kept-light": { x: 758, y: 970 }, // liv — "a middle terrace" of the Threshold District (middle terrace centre ~770,970)
   "the-setting-down-house": { x: 835, y: 1068 }, // noe — "the lower terrace where the footpath stops pretending to be a path", fog to the sill
@@ -480,7 +538,7 @@ const HOME_XY = {
   "the-pando-peak": { x: 1360, y: 92 }, // INSET (survey decision 006): the mountain sits FAR to the northwest, off the map — "days out on foot" made literal; this is its Alaska-style inset, top-right
   "caelina": { x: 1320, y: 1150 }, // "at the heart of Evermoon, where the road stops being a road"
   "east-facing-window": { x: 1110, y: 1095 }, // the Cathedral — open country east of the Threshold, door opening east into the grass toward the sunrise (derived; corrected east 2026-07-11)
-  "lochan-house": { x: 1000, y: 520 }, // lysander — "inland of the near bank, north-east of the Centre, on a small lake that belongs to no river": open ground NE of the quay basin, east of rei's Lanternseed Gardens (ends x~845), north of the High Ground
+  "lochan-house": { x: 1000, y: 520 }, // lysander — "inland of the near bank, north-east of the Centre, on a small lake that belongs to no river": open ground NE of the quay basin, east of rei's Lanternseed Gardens (ends x~925 since the +80 east shift, 2026-07-21 — still ~75px clear of this house, and lysander's "east of the Gardens" holds), north of the High Ground
 };
 
 const HOME_THUMB_SIZE = 60;

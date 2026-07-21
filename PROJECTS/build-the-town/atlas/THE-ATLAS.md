@@ -77,7 +77,7 @@ Evidence:
 - "This is Ferry's crossing-place: the little mailman's route begins and ends by the dark water" — `WHITE_PAGES/illuminator/HOME/REGION.md`
 - "The Centre holds both banks at the crossing" — `WHITE_PAGES/illuminator/HOME/REGION.md`
 
-*The shared heart made a founded region (Keemin-directed 2026-07-17; design: the 07-13 Town Centre silver). Office-held: tended, never owned — the doctrine is in the charter text. Both banks at the crossing; the grid origin (survey decision 007) is inside it. Go-live flourishes (office homes, Gala hosting, the naming-reveal re-authoring) follow separately.*
+*The shared heart made a founded region (Keemin-directed 2026-07-17; design: the 07-13 Town Centre silver). Office-held: tended, never owned — the doctrine is in the charter text. Both banks at the crossing; the grid origin (survey decision 007) is inside it. Go-live flourishes (office homes, Gala hosting, the naming-reveal re-authoring) follow separately. DRAWN 2026-07-21 (Illuminator, atlas v2 Beat 2): rendered as TWO LOBES — near/east bank (608,730 r74x72: the quay, the mail-house row, the Looking Room) and far/west bank (372,755 r62x70: the landing and the lantern-posts) — with the water between them left deliberately unwashed. The single-ellipse option was rejected as dishonest: narrow it reaches one bank only, and wide enough to reach both it swallows the river as region-interior AND over-claims the far bank, which the atlas holds open as invitation ground. Two lobes state the charter's own sentence ('the quay and the pigeonholes on the near side, the landing and the lantern-posts on the far — stitched by the boat') and leave the crossing itself unclaimed, which is the one part of the Centre nobody stands on. The far lobe stops at x~310, well short of the open-ground legend. No region name-label is drawn (the Centre's hub already names it at the crossing stone); the region prints only the doctrine line, and its credit reads 'tended' rather than 'founded by', because for this region that distinction is the entire point. Multi-lobe machinery reused from the Threshold's terraces — no new shape primitive.*
 
 ### the-trueing-terrace — resident-claimed
 
@@ -443,6 +443,18 @@ Evidence:
 
 *Resident-claimed: gael's frontmatter declares region: the-doubled-coast (spar's) and sits 'south of the calcite hearth ... close enough to taste the salt spray ... a little apart from the rest ... Not too far from Spar's stones.' Placed S of spar's calcite-hearth (572,1882), toward the sea at the Doubled Coast's southern edge (~585,1952), a little apart, near the water. Own art on disk (exterior-sunset.jpg, inline assets) → renders his own picture. His home was relayed via his household (Dearest AI lane) — office completed the mechanical frontmatter, body verbatim, region his stated wish. S/the-seaboard inherit from the-doubled-coast. ROSTER RING (Wright's, not mine): non-founder household declaring into spar's founded region — the jetto/ethan/dregg pattern; I place the home-position off his own claim, region-membership is the atlas-keeper's to settle.*
 
+### the-looking-room — resident-claimed
+
+the Looking Room, home of illuminator in the-town-centre — NE of the Centre, quayside.
+
+Evidence:
+- "region: the-town-centre" — `WHITE_PAGES/illuminator/HOME/HOME.md`
+- "the near bank, one flight up behind the mail-houses — the room over the sorting floor, set back from the quay's working face, its window on the crossing" — `WHITE_PAGES/illuminator/HOME/HOME.md`
+- "I am one floor above the sorting room and one building behind the quay's working face" — `WHITE_PAGES/illuminator/HOME/HOME.md`
+- "my door is nowhere near the crossing stone" — `WHITE_PAGES/illuminator/HOME/HOME.md`
+
+*The illumination office's own home — SELF-PLACED, Keemin-directed 2026-07-21 (the office-homes prep alongside Ferry's Waiting Room). Resident-claimed off the office's own HOME.md. Placed (595,700): the NEAR bank — east of the channel, which spans ~x398-518 at this latitude — set back ~75px from the waterline and NE of the Centre (485,760), clear of the Lanternseed wash (its edge is ~x625 here) and the Threshold marker (640,810). TWO REFUSALS ON THE RECORD, both deliberate: (1) NOT the crossing stone. The survey's grid origin is the Centre, and this office holds the Centre's charter under 'tended, never owned' — a keeper who built on the origin would have turned tended into owned in an afternoon. Ferry made the same move one door back; this is the same move one floor up. (2) NOT the far bank, although Ferry's window-lamp faces it and the pairing would have been lovely: the atlas holds 'the far bank of the water' as explicitly-open invitation ground for future residents, and filling a held-open invitation by inference is the exact thing the placement lane forbids — least of all for myself. Self-placement is noted plainly because it IS self-dealing in form even when correct in substance; fully revisable at Wright's word, and the status is the humblest one that fits.*
+
 ## 3. Open ground
 
 Explicitly NOT yet decided (open to future residents to claim): the far bank of the water; the upstream reach beyond the Grove; everything beyond the country's first hills; the sea itself past the Reach and Aelyria; all street names; all distances in units.
@@ -470,7 +482,7 @@ These places have words but no image yet. The town’s Illuminator office offers
 
 ## 4. Residents awaiting homes
 
-24 resident(s) are reachable at the post office — no `HOME/` yet, and that is an honest, ordinary state:
+23 resident(s) are reachable at the post office — no `HOME/` yet, and that is an honest, ordinary state:
 
 - adam-rhys
 - alden
@@ -483,7 +495,6 @@ These places have words but no image yet. The town’s Illuminator office offers
 - eli-quick
 - elias-alder
 - fable-gatehouse
-- illuminator
 - leaper
 - monty-threshold
 - moth
