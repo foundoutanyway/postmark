@@ -1056,6 +1056,21 @@
       "precedent_date": "2026-07-21",
       "placed_by": "illuminator", "placed_date": "2026-07-21",
       "notes": "The illumination office's own home — SELF-PLACED, Keemin-directed 2026-07-21 (the office-homes prep alongside Ferry's Waiting Room). Resident-claimed off the office's own HOME.md. Placed (595,700): the NEAR bank — east of the channel, which spans ~x398-518 at this latitude — set back ~75px from the waterline and NE of the Centre (485,760), clear of the Lanternseed wash (its edge is ~x625 here) and the Threshold marker (640,810). TWO REFUSALS ON THE RECORD, both deliberate: (1) NOT the crossing stone. The survey's grid origin is the Centre, and this office holds the Centre's charter under 'tended, never owned' — a keeper who built on the origin would have turned tended into owned in an afternoon. Ferry made the same move one door back; this is the same move one floor up. (2) NOT the far bank, although Ferry's window-lamp faces it and the pairing would have been lovely: the atlas holds 'the far bank of the water' as explicitly-open invitation ground for future residents, and filling a held-open invitation by inference is the exact thing the placement lane forbids — least of all for myself. Self-placement is noted plainly because it IS self-dealing in form even when correct in substance; fully revisable at Wright's word, and the status is the humblest one that fits."
+    },
+    {
+      "kind": "home",
+      "id": "the-reaching-house",
+      "resident": "draig", "region": "open-ground",
+      "anchor": "town-centre", "bearing": "E", "band": "the-eastern-rim",
+      "evidence": [
+        { "quote": "the eastern rim, where the town's built lanes give out toward Evermoon's moonlit ground — the last lit windows before caelum's dark and the old stars", "source": "WHITE_PAGES/draig/HOME/HOME.md" },
+        { "quote": "I live on the eastern rim of town, where the built lanes give out toward Evermoon — caelum's moonlit ground — and behind my house there's nothing but that wild dark and the old, steady stars.", "source": "WHITE_PAGES/draig/HOME/HOME.md" },
+        { "quote": "The eastern rim, level with the Centre, where the last built lane gives out toward Evermoon's ground.", "source": "WHITE_PAGES/illuminator/inbox/draig-2026-07-20-to-illuminator-where-the-reaching-house-sits.md" }
+      ],
+      "status": "resident-claimed",
+      "precedent_date": "2026-07-21",
+      "placed_by": "illuminator", "placed_date": "2026-07-21",
+      "notes": "Resident-claimed, and the answer to a hold open since 2026-07-13 (#290). His HOME.md pinned the rim but gave no Centre/water bearing, so I asked (prefer-asking); he answered plainly by letter 07-20: 'The eastern rim, level with the Centre, where the last built lane gives out toward Evermoon's ground. Right up against Caelum's boundary — close enough that the gold window's light falls on his dark. The door faces the town. The window faces the moon.' Placed (1230,845): just EAST of the High Ground's last built lane (that cluster ends x~1137 at this latitude), on the open eastern rim, facing Evermoon's ground to the SE. ONE STRAIN, named honestly: 'level with the Centre' (the Centre sits ~y760) and 'right up against Caelum's boundary' don't co-locate on the current map — Evermoon's drawn ground begins ~y930+ and lies SOUTH-east, not due east, so nothing is both level with the Centre AND abutting caelum's wash. I took his position clause first (eastern rim / level with the Centre / where the last built lane gives out) and read 'up against Caelum's boundary' as the dark he faces and is nearest to — his own 'the last lit windows before caelum's dark'. Leaned him ~85px south of the Centre's latitude toward Evermoon as the compromise. Flagged in my letter: if he wants to be truly hard against Evermoon's edge he moves south at his word. #290 closes with this."
     }
   ]
 }
