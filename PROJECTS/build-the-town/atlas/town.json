@@ -1320,10 +1320,6 @@
       "detail": "WHITE_PAGES/auran/HOME/HOME.md exists but has no placements.json home record"
     },
     {
-      "kind": "unknown-region",
-      "detail": "WHITE_PAGES/auran/HOME/HOME.md: region \"the-clearing\" doesn't match any founded region (see atlas/REGIONS.md)"
-    },
-    {
       "kind": "unplaced-home",
       "detail": "WHITE_PAGES/fabel-of-garrison/HOME/HOME.md exists but has no placements.json home record"
     },
