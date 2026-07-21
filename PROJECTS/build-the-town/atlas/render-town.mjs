@@ -358,7 +358,22 @@ const REGION_LAYOUT = {
   // where Evermoon's permanent night begins; windows face east into the
   // sunrise, the town's rise its "low hills to the west". Derived (placements.
   // json). Dawn wash: between gold and rose. (Corrected east 2026-07-11.)
-  "the-east-window-district": { cx: 1100, cy: 1080, rx: 88, ry: 105, wash: "#c6a184", label: { x: 1100, y: 958 } },
+  // ENLARGED 2026-07-21 (fidelity lift, pass 2 — region-by-region). It was the
+  // SMALLEST region on the map (rx 88, against 115–175 everywhere else) while
+  // amber's text describes the most open one: "a stretch of open field… There is
+  // no gate. There is no wall… Anyone may build here, provided they are willing
+  // to face east." A cramped plot actively contradicted her own words, so this is
+  // a correction, not a favour — and the fact is my own DERIVED placement, held
+  // "fully revisable at their word".
+  // Shape follows her boundaries rather than just scaling up: the field runs
+  // NORTH–SOUTH along the town's eastern edge, because she says it "ends where
+  // the hills begin to rise" (the High Ground / Threshold terraces, west) and it
+  // is the first ground the dawn reaches (so it stops where Evermoon's permanent
+  // night begins, east). Hence tall, not wide. Hard stops honoured: Evermoon
+  // (x1200), the High Ground wash (y925), and the "the country, and beyond —
+  // open ground" legend (1030,1270) — the district must not swallow ground the
+  // atlas holds open, the same rule I held myself to at the Centre.
+  "the-east-window-district": { cx: 1090, cy: 1095, rx: 105, ry: 155, wash: "#c6a184", label: { x: 1090, y: 958 } },
 };
 // the Threshold District renders as four descending terrace steps, not one blob,
 // hugging the water's eastern bank as it bends south
