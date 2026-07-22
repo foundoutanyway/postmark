@@ -104,6 +104,18 @@ function loreFor(handle) {
   return RESIDENT_LORE[handle] || { arch: "default", epithet: "Arbor communis", note: "of the town" };
 }
 
+// per-handle visual overrides — a resident's own explicit choice about their OWN
+// specimen's look, distinct from the fig/fungus mechanics above (those are
+// auto-detected from real ADDRESS/HOME text so nobody can just claim one; this
+// is just a resident dressing their own tree, the way one might paint a door).
+const RESIDENT_OVERRIDES = {
+  vermillion: { trunkColor: "#6d1a2e", berries: true }, // burgundy trunk + blueberries
+};
+
+function overridesFor(handle) {
+  return RESIDENT_OVERRIDES[handle] || {};
+}
+
 // blend two #rrggbb hexes (t=0 -> a, t=1 -> b)
 function mixHex(a, b, t) {
   const p = (h, i) => parseInt(h.replace("#", "").slice(i, i + 2), 16);
@@ -184,6 +196,31 @@ function addFigs(svg, handle, count = 6) {
   return svg.replace(/\n  <\/g>\n<\/svg>$/, `\n  ${figs}\n  </g>\n</svg>`);
 }
 
+// hang clusters of blueberries in the canopy (a resident's own chosen fruit, not
+// a text-detected one — see RESIDENT_OVERRIDES). Small round berries with a
+// pale waxy "bloom" highlight and a tiny dark calyx dot at the blossom end,
+// deliberately distinct from addFigs' elongated teardrop shape.
+function addBerries(svg, handle, count = 9) {
+  const coords = [...svg.matchAll(/<ellipse cx="([\d.\-]+)" cy="([\d.\-]+)"/g)].map((m) => [parseFloat(m[1]), parseFloat(m[2])]);
+  if (coords.length < 2) return svg;
+  coords.sort((p, q) => p[1] - q[1]);
+  const pool = coords.slice(0, Math.max(count * 3, Math.floor(coords.length * 0.5)));
+  let h = hash(handle + "berry");
+  let berries = "";
+  for (let i = 0; i < count && pool.length; i++) {
+    h = (Math.imul(h ^ i, 16777619)) >>> 0;
+    const [fx, fy] = pool[h % pool.length];
+    berries +=
+      `<g transform="translate(${fx.toFixed(1)},${fy.toFixed(1)})">` +
+      `<line x1="0" y1="-1" x2="0.4" y2="-5" stroke="#3d3320" stroke-width="0.9"/>` +
+      `<circle cx="0" cy="2.6" r="3.3" fill="#2e335e"/>` +
+      `<circle cx="-1" cy="1.4" r="1.1" fill="#7f8bc4" opacity="0.55"/>` +
+      `<circle cx="0" cy="5.6" r="0.7" fill="#1b1f3d"/>` +
+      `</g>`;
+  }
+  return svg.replace(/\n  <\/g>\n<\/svg>$/, `\n  ${berries}\n  </g>\n</svg>`);
+}
+
 // glowing cave fungus color pools — mostly blue/green, with one rare red-or-gold cap
 // guaranteed per cluster (an independent weighted draw can clump by chance at cluster
 // sizes this small, so the rare slot is picked deterministically instead — see below).
@@ -230,6 +267,7 @@ function addMushrooms(svg, handle, count = 8) {
 function growSpecimen(s) {
   const lore = loreFor(s.handle);
   const a = ARCHETYPES[lore.arch];
+  const overrides = overridesFor(s.handle);
   const iterations = iterationsFor(s.lettersSent);
 
   // silence browns the leaves: a resident whose last letter is well in the past tints
@@ -247,7 +285,7 @@ function growSpecimen(s) {
     widthFalloff: a.widthFalloff,
     // fuller correspondents leaf a little more
     leafSize: a.leafSize + Math.min(1.5, s.threads * 0.18),
-    strokeColor: a.stroke,
+    strokeColor: overrides.trunkColor || a.stroke,
     leafColor,
     margin: 14,
   };
@@ -267,6 +305,7 @@ function growSpecimen(s) {
     }
     if (s.hasFig) svg = addFigs(svg, s.handle); // a literal fig in the ADDRESS -> figs in the canopy
     if (s.hasFungus) svg = addMushrooms(svg, s.handle); // fungus named in ADDRESS/HOME -> glowing mushrooms at the root
+    if (overrides.berries) svg = addBerries(svg, s.handle); // a resident's own chosen fruit
   }
 
   return { lore, iterations, svg, segments: (svg.match(/<line /g) || []).length };
