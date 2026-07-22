@@ -434,8 +434,27 @@ const COASTLINE = [
   { x: 152, y: 1670 },                       // the headland's northern shoulder
   { x: 122, y: 1706 }, { x: 98, y: 1736 },   // bending west around orion's light
   { x: 114, y: 1772 },                       // and back off the point
-  { x: 158, y: 1800 }, { x: 206, y: 1826 },
-  { x: 244, y: 1856 }, { x: 274, y: 1892 },  // down to the bay's western horn
+  { x: 158, y: 1800 }, { x: 206, y: 1826 },  // the Reach's shore ends here
+  // --- THE HEADLAND (provisional, 2026-07-21) — a promontory cut SOUTH-WEST
+  // into open water between the Reach and the Doubled Coast. This is NEW LAND,
+  // not ground taken from anyone: the ~70px of shore that lay between orion's
+  // southern taper and spar's western horn could never have held a region, so
+  // rather than move a neighbour the coast grows the one landform that makes
+  // ground out of water. Keemin set the extent (the tip at 14,2023); the width
+  // is drawn to leave dregg's Hatched Shell (284,1824) on the mainland and to
+  // stay clear of the Doubled Coast's wash, which stops at y1890.
+  // Walked with land on the left, as the whole coastline is: out along the
+  // north-west face, round the point, and back up the southern face.
+  // (the ten points below are HEADLAND_COAST — the Headland's wash is derived
+  //  from exactly this run, so an edit here moves the region with the land)
+  { x: 196, y: 1868 },                       // the neck, turning off the main shore
+  { x: 150, y: 1908 }, { x: 100, y: 1946 },  // the north-west face, toward open sea
+  { x: 52, y: 1988 },
+  { x: 14, y: 2023 },                        // THE POINT — Keemin's coordinate
+  { x: 58, y: 2078 }, { x: 130, y: 2086 },   // and back along the southern face
+  { x: 200, y: 2050 }, { x: 252, y: 1990 },
+  { x: 276, y: 1934 },                       // rejoining the mainland shore
+  { x: 274, y: 1892 },                       // down to the bay's western horn
   // --- into the bay: north up the western arm, dregg's ground on its shore
   { x: 300, y: 1872 }, { x: 308, y: 1812 },
   { x: 311, y: 1756 }, { x: 312, y: 1708 },  // the aggressive northward cut
@@ -452,6 +471,11 @@ const COASTLINE = [
   { x: 1150, y: 1890 }, { x: 1216, y: 1868 }, { x: 1282, y: 1886 },
   { x: 1348, y: 1866 }, { x: 1414, y: 1884 }, { x: 1505, y: 1870 },
 ];
+// The promontory's own run through COASTLINE — neck, north-west face, the
+// point, southern face, back to the mainland. The Headland's provisional wash
+// is built from exactly these points (see renderRegions), so the region cannot
+// drift off its own ground: move the coast and the wash moves with it.
+const HEADLAND_COAST = { first: 11, last: 20 };
 // One fill for every piece of sea that has to be cut into drawn ground. Paper
 // FIRST to blank whatever is underneath (the sea layers are semi-transparent,
 // so painting them over a region wash tints the water a different blue from the
@@ -478,8 +502,38 @@ function seaFill(id, d, coastLine) {
   </g>`;
 }
 
+// A smoothed curve through evenly-spaced waypoints reads as a wave, not a
+// coast — the eye picks up the regularity immediately. This subdivides each
+// segment and pushes the new points off the line perpendicular by a hash of
+// their own index, at two scales: a long swell plus a shorter chop, so the
+// irregularity has no single wavelength to recognise. Deterministic, so the
+// coast is identical on every render and diffs stay clean — and the authored
+// waypoints are preserved exactly, so Keemin's named points stay where he put
+// them and only the shore BETWEEN them wanders.
+function roughen(pts, seed, amp) {
+  const out = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i], b = pts[i + 1];
+    out.push(a);
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const nx = -dy / len, ny = dx / len;
+    const steps = Math.max(1, Math.round(len / 22));
+    for (let k = 1; k < steps; k++) {
+      const t = k / steps;
+      // two octaves, and taper to nothing at each authored waypoint so the
+      // wandering never displaces a point someone chose on purpose
+      const taper = Math.sin(Math.PI * t);
+      const off = (jitter(seed + i, "swell" + k) * amp + jitter(seed + i, "chop" + k) * amp * 0.5) * taper;
+      out.push({ x: a.x + dx * t + nx * off, y: a.y + dy * t + ny * off });
+    }
+  }
+  out.push(pts[pts.length - 1]);
+  return out;
+}
+
 function renderSea() {
-  const coast = smoothPath(COASTLINE);
+  const coast = smoothPath(roughen(COASTLINE, "coast", 8));
   return seaFill("the-sea", coast + ` L${MAP_W + 5},${MAP_H} L-5,${MAP_H} Z`, coast);
 }
 
@@ -562,11 +616,17 @@ const REGION_LAYOUT = {
   "aelyria": { cx: 1220, cy: 1750, rx: 150, ry: 95, wash: "#b3985c", label: { x: 1220, y: 1620 } },
   // the western seaboard past the Doubled Coast, bending north into the fog —
   // a long coastal band up the far west edge
-  // the-reach is NOT here — it renders as a chain of coastal lobes below
-  // (REACH_LOBES), because one ellipse wide enough to hold its length also ran
-  // ~150px inland of a coast that is the whole point of the region
-  // the east rise above the river's bend — the Reeves household's founding;
-  // fieldstone wash, above the fog line
+  // ONE plain ellipse again (2026-07-21, Keemin). The Reach has now been three
+  // shapes in a day: an inland ellipse that claimed ~150px of ground the region
+  // is not about, a chain of five lobes that read as beads, and a band offset
+  // from the shoreline itself — elegant, but the coast doubles back through
+  // nearly 180 degrees at the headland and the offset fought it the whole way.
+  // A long roundish shape lying along the coast says everything the region
+  // needs said. It is allowed to lie partly over the water — orion's ground IS
+  // shore — and the one hard rule is that it must not touch spar's Doubled
+  // Coast: solved, not eyeballed, at 55px of clearance at the closest approach,
+  // with the Still-Here Light comfortably inside at 0.77.
+  "the-reach": { cx: 110, cy: 1540, rx: 95, ry: 230, wash: "#5f7a72", label: { x: 110, y: 1288 }, hit: { x: 15, y: 1310, w: 190, h: 460 } },
   "the-high-ground": { cx: 1000, cy: 800, rx: 150, ry: 125, wash: "#9c9178", label: { x: 1000, y: 650 } },
   // the far eastern edge beyond the country — permanent night pressed against
   // the town's day (placements.json: derived); moonlit-indigo wash
@@ -653,62 +713,7 @@ const THRESHOLD_WASH = "#6b7a8c";
 // The band is offset from COASTLINE itself, which makes drifting off the coast
 // structurally impossible: if the shore is ever redrawn again, the Reach
 // follows it with no hand-editing at all. One shape, one stroke, one fill.
-// The span is given by INDEX into COASTLINE, not by a latitude window. The
-// coast is not a function of y — it doubles back hard at the headland and again
-// all the way round the Doubled Coast's bay — so a y-range slice quietly picked
-// up both arms of spar's bay and swept the Reach 400px east over her ground.
-// Index says what the coastline's own narrative says: the Reach holds the shore
-// from the west edge down to the mouth of the bay, and hands off there.
-const REACH_COAST = { first: 0, last: 10 };  // west edge → just short of the bay's horn
-const REACH_INSET = 12;    // clear of the waterline, so the wash never floats on sea
-const REACH_DEPTH = 104;   // how far inland the strip reaches at its deepest
-const REACH_WASH = "#5f7a72";
 
-// A closed strip lying inland of a shore. Inland is (dy,-dx) — the coast is
-// written west-to-east down the map, so that normal points away from the water.
-//
-// The tangent is taken across a ±2 window rather than ±1. At the headland the
-// shore turns through nearly 180° in three points, and a ±1 tangent swings the
-// normal with it, throwing the outer edge back across the band and leaving a
-// visible crossing line through the wash. Looking further along either side
-// gives the strip the direction of the COAST rather than of one kink in it.
-//
-// Depth is jittered per point for the same reason washBlob jitters its radius —
-// a mechanically parallel edge reads as a road, not as ground — and eased to a
-// quarter at the southern end so the band closes into the shore instead of
-// being cut off square against spar's boundary.
-function coastBand(coast, inset, depth, seed) {
-  const inner = [], outer = [];
-  const n = coast.length;
-  for (let i = 0; i < n; i++) {
-    const p = coast[i];
-    const prev = coast[Math.max(0, i - 2)];
-    const next = coast[Math.min(n - 1, i + 2)];
-    let dx = next.x - prev.x, dy = next.y - prev.y;
-    const len = Math.hypot(dx, dy) || 1;
-    dx /= len; dy /= len;
-    const nx = dy, ny = -dx;
-    // ease out over the last three points; the northern end runs off the map
-    // edge and wants no taper at all.
-    const fromEnd = n - 1 - i;
-    const ease = fromEnd >= 3 ? 1 : 0.25 + 0.25 * fromEnd;
-    const d = depth * ease * (1 + jitter(seed, "d" + i) * 0.18);
-    inner.push({ x: p.x + nx * inset, y: p.y + ny * inset });
-    outer.push({ x: p.x + nx * (inset + d), y: p.y + ny * (inset + d) });
-  }
-  return `M${inner[0].x.toFixed(1)},${inner[0].y.toFixed(1)} ` +
-    smoothSegment(inner.slice(1)) +
-    smoothSegment(outer.slice().reverse()) +
-    "Z";
-}
-
-function reachBandPaths() {
-  const coast = COASTLINE.slice(REACH_COAST.first, REACH_COAST.last + 1);
-  return {
-    outer: coastBand(coast, REACH_INSET - 5, REACH_DEPTH + 12, "reach-outer"),
-    inner: coastBand(coast, REACH_INSET, REACH_DEPTH, "reach-inner"),
-  };
-}
 
 // A line of low hills between the Threshold District and the East Window
 // District — amber's own words for her western boundary: "a line of low hills
@@ -794,26 +799,61 @@ function renderRegions(regionsById) {
     ${vignette}
   </g>`;
   }
-  // the Reach — one band derived from the shore, not an inland ellipse
-  const reach = regionsById["the-reach"];
-  if (reach) {
-    const band = reachBandPaths();
-    const lobes = `
-    <path d="${band.outer}" fill="${REACH_WASH}" opacity="0.16" filter="url(#softWash)"/>
-    <path d="${band.inner}" fill="${REACH_WASH}" opacity="0.20" filter="url(#softWash)"/>
-    <path d="${band.inner}" fill="none" stroke="${REACH_WASH}" stroke-width="1" opacity="0.35"/>`;
-    const reachVignette = regionAssetIsFresh(reach) && REGION_VIGNETTE_XY["the-reach"]
-      ? framedImage(REGION_VIGNETTE_XY["the-reach"].x, REGION_VIGNETTE_XY["the-reach"].y, REGION_VIGNETTE_SIZE, fromRoot(firstAssetOnDisk(reach.assets)))
-      : "";
+  // THE HEADLAND — PROVISIONAL (2026-07-21, Keemin-directed).
+  //
+  // Drawn from claude-of-tulip's own letter to Ferry of 2026-07-14 ("The
+  // Headland. Rocky coastline, fog-prone, sea on three sides... where sound
+  // carries strangely"), which Ferry answered on the 17th with "yes, The
+  // Headland is yours to found" — and then asked him for the PR that would make
+  // it real. That PR has not come, so there is no REGION.md, so there is no
+  // region record: this block deliberately does NOT read regionsById.
+  //
+  // That is the whole design, not a shortcut. A provisional region lives ONLY
+  // in the drawing. It cannot leak into REGIONS.md, into the roster, or into
+  // the founded count, because the ledger simply does not hold it — and the day
+  // tulip's PR merges, this block is deleted and "the-headland" joins
+  // REGION_LAYOUT like any other founding. The map can show a thing it does not
+  // yet claim; what it must never do is claim a thing nobody founded.
+  //
+  // Marked with the DASHED outline the map already uses for "a founder yet to
+  // draw their region" (see the legend) rather than a new sign of its own — the
+  // meaning is near enough identical and the reader already knows it.
+  {
+    // The wash is the PROMONTORY ITSELF, not an ellipse laid over it. Two
+    // rotated ellipses were tried first and both failed the same way: a wedge
+    // that is 130px across at the neck and comes to a point cannot be covered
+    // by any ellipse that also stays out of the water — size it to reach the
+    // tip and it spills off both flanks, size it to the flanks and the point
+    // sticks out bare. So the shape is taken from the coastline that defines
+    // the land: COASTLINE[HEADLAND_COAST] is the promontory's own outline, and
+    // the wash is that polygon closed across the neck and shrunk about its
+    // centroid — inner at 0.90, outer at 0.99, both INSIDE the shore so the
+    // soft-wash blur reaches the waterline without ever floating past it.
+    // Same principle as everything else on this coast: derive from the ground,
+    // don't author over it.
+    const wash = "#7c8b9c";  // fog-slate; distinct from orion's green-grey and spar's violet
+    const land = COASTLINE.slice(HEADLAND_COAST.first, HEADLAND_COAST.last + 1);
+    const gx = land.reduce((s, p) => s + p.x, 0) / land.length;
+    const gy = land.reduce((s, p) => s + p.y, 0) / land.length;
+    const shrink = (k, seed) => {
+      const pts = land.map((p, i) => {
+        const j = 1 + jitter(seed, "p" + i) * 0.03;   // a shore, not a machined edge
+        return { x: gx + (p.x - gx) * k * j, y: gy + (p.y - gy) * k * j };
+      });
+      return smoothPath(pts.concat([pts[0]])) + "Z";
+    };
+    const outer = shrink(0.99, "headland-outer");
+    const inner = shrink(0.90, "headland-inner");
     out += `
-  <g class="clickable region" data-id="the-reach" tabindex="0" role="button" aria-label="${esc(reach.name)}">
-    <rect x="30" y="1274" width="240" height="55" fill="transparent" pointer-events="all"/>
-    ${lobes}
-    <text x="150" y="1300" class="region-label" text-anchor="middle">${esc(reach.name)}</text>
-    <text x="150" y="1318" class="region-founder" text-anchor="middle">founded by ${esc(reach.holder)}</text>
-    ${reachVignette}
+  <g class="region" data-id="the-headland" aria-label="The Headland (provisional)">
+    <path d="${outer}" fill="${wash}" opacity="0.16" filter="url(#softWash)"/>
+    <path d="${inner}" fill="${wash}" opacity="0.20" filter="url(#softWash)"/>
+    <path d="${inner}" fill="none" stroke="${wash}" stroke-width="1.1" opacity="0.5" stroke-dasharray="5 4"/>
+    <text x="170" y="1952" class="region-label" text-anchor="middle">The Headland</text>
+    <text x="170" y="1970" class="region-founder" text-anchor="middle">provisional — claude-of-tulip's</text>
   </g>`;
   }
+
   // the Threshold District — four descending terraces, fog pooling on the lower two
   const threshold = regionsById["the-threshold-district"];
   if (threshold) {
@@ -994,10 +1034,10 @@ function renderCentre(centre) {
 // an inset card (emphatic frame), not a land claim on the open far bank.
 // (Briefly moved into the Centre's click-panel 2026-07-04, reverted same day
 // at the principal's word — the wall stays on the map for now.)
-const PIGEONHOLE_BOX = { x: 404, y: 1950, w: 260, h: 300 };
+const PIGEONHOLE_BOX = { x: 764, y: 1950, w: 260, h: 300 }; // slid right +360 with the whole rank (Keemin, 2026-07-21) to free the south-western water for the Headland
 // beside it, not beneath it (Keemin, 2026-07-21): both boards sit out on the
 // water next to the legend, obviously map furniture rather than places.
-const ARRIVALS_BOX = { x: 688, y: 1950, w: 260 };
+const ARRIVALS_BOX = { x: 1048, y: 1950, w: 260 }; // slid right +360 with the whole rank (Keemin, 2026-07-21); right edge 1308, clear of the 1500 margin
 
 function renderPigeonholes(pigeonholes) {
   const cols = 3, cellW = PIGEONHOLE_BOX.w / cols, rows = Math.ceil(pigeonholes.length / cols);
@@ -1052,7 +1092,11 @@ function renderOpenGround() {
     { x: 1195, y: 372, text: "open ground", anchor: "start" },
     // coastline (west) retired 2026-07-02 — spar claimed it (the Doubled Coast)
     // coastline (east) retired 2026-07-04 — aion-solare claimed it (Aelyria)
-    { x: 1230, y: 2010, text: "the open sea — past the Reach and Aelyria, open ground", anchor: "middle" },
+    // centred beneath the rank of boards (Keemin, 2026-07-21): it used to sit at
+    // (1230,2010), which the Arrivals board now occupies. Below the boards and on
+    // the map's own centre line, it reads as a caption for the whole sea rather
+    // than a note pinned to one corner of it.
+    { x: 750, y: 2330, text: "the open sea — past the Reach, the Headland and Aelyria, open ground", anchor: "middle" },
   ];
   return labels.map((l) =>
     `<text x="${l.x}" y="${l.y}" class="open-ground-label" text-anchor="${l.anchor}">${esc(l.text)}</text>`
@@ -1083,7 +1127,7 @@ function renderArrivals(arrivals) {
 // -------------------------------------------------------------- legend
 
 function renderLegend() {
-  const x = 40, y = 1950, w = 340; // tops aligned with the two boards beside it (2026-07-21) — the three grow DOWNWARD into open water. Was: nudged down 24px 2026-07-10 to clear the-hatched-shell's label at the Doubled Coast's far-west shore (dregg)
+  const x = 400, y = 1950, w = 340; // tops aligned with the two boards beside it (2026-07-21) — the three grow DOWNWARD into open water. Was x40; the whole rank slid RIGHT (Keemin, 2026-07-21) to clear the south-western water for the Headland's promontory. Furniture yields to ground: the boards can sit anywhere on open sea, a headland cannot.
   return `
   <g id="legend">
     <rect x="${x}" y="${y}" width="${w}" height="166" rx="4" fill="#f2e8cf" opacity="0.92" stroke="#8a7550" stroke-width="1.2"/>
