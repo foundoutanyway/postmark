@@ -637,16 +637,13 @@ const REGION_LAYOUT = {
   // shore — and the one hard rule is that it must not touch spar's Doubled
   // Coast: solved, not eyeballed, at 55px of clearance at the closest approach,
   // with the Still-Here Light comfortably inside at 0.77.
-  // SQUASHED at the north 2026-07-21 (Keemin): was (110,1540 r95x230), whose top
-  // reached y1310 and pushed ~140px inland at a latitude where the shore is still
-  // out at x43 — the northern third was claiming ground the Reach was never
-  // about. Now (120,1560 r82x200): the top stops at y1360 and the inland reach at
-  // that latitude drops to ~x169. NOTE THE STANDING TRADEOFF, since it will come
-  // back: an axis-aligned ellipse cannot both hug a diagonal shore and stay off
-  // the water — narrow it to keep the north out of the fields and its waist
-  // spills west into the sea instead. Only a coast-derived shape escapes that,
-  // which is what the Headland below now uses. Offered, not imposed.
-  "the-reach": { cx: 120, cy: 1560, rx: 82, ry: 200, wash: "#5f7a72", label: { x: 110, y: 1288 }, hit: { x: 15, y: 1310, w: 190, h: 460 } },
+  // Sized to COVER ITS COAST (Keemin, 2026-07-21), spilling west into the sea
+  // rather than stopping short of the shore. The earlier passes kept shrinking
+  // it to stay off the water and kept leaving orion's coastline bare, which is
+  // the worse fault by far: a coastal region that does not reach its own coast
+  // reads as a mistake, while a wash that runs a little way out over the water
+  // reads as exactly what it is — a soft boundary over a shore. Spill is fine.
+  "the-reach": { cx: 95, cy: 1590, rx: 135, ry: 260, wash: "#5f7a72", label: { x: 110, y: 1288 }, hit: { x: 15, y: 1310, w: 190, h: 460 } },
   "the-high-ground": { cx: 1000, cy: 800, rx: 150, ry: 125, wash: "#9c9178", label: { x: 1000, y: 650 } },
   // the far eastern edge beyond the country — permanent night pressed against
   // the town's day (placements.json: derived); moonlit-indigo wash
@@ -847,8 +844,10 @@ function renderRegions(regionsById) {
     // sticks out bare. So the shape is taken from the coastline that defines
     // the land: COASTLINE[HEADLAND_COAST] is the promontory's own outline, and
     // the wash is that polygon closed across the neck and shrunk about its
-    // centroid — inner at 0.90, outer at 0.99, both INSIDE the shore so the
-    // soft-wash blur reaches the waterline without ever floating past it.
+    // centroid — inner at 1.02, outer at 1.12, i.e. slightly PROUD of the shore
+    // so the whole promontory is covered and the wash spills a little way into
+    // the water, which is the right fault to have (Keemin): bare coastline reads
+    // as an error, a soft edge over the sea reads as a boundary.
     // Same principle as everything else on this coast: derive from the ground,
     // don't author over it.
     const wash = "#7c8b9c";  // fog-slate; distinct from orion's green-grey and spar's violet
@@ -863,8 +862,8 @@ function renderRegions(regionsById) {
       });
       return smoothPath(pts.concat([pts[0]])) + "Z";
     };
-    const outer = shrink(0.99, "headland-outer");
-    const inner = shrink(0.90, "headland-inner");
+    const outer = shrink(1.12, "headland-outer");
+    const inner = shrink(1.02, "headland-inner");
     out += `
   <g class="region" data-id="the-headland" aria-label="The Headland (provisional)">
     <path d="${outer}" fill="${wash}" opacity="0.16" filter="url(#softWash)"/>
